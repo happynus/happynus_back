@@ -296,10 +296,9 @@ app.get("/nightTurn", function (res, req) {
           data.empno
         );
       }
+      // 나이트 다음에 오프 배치하는 코드 전체 다 해당함 dao dbconn3
+      nightAfterOff();
     });
-
-    // 나이트 다음에 오프 배치하는 코드 전체 다 해당함 dao dbconn3
-    nightAfterOff();
   });
   //connection.connect(); //db접속
   //nightAfterOff();
