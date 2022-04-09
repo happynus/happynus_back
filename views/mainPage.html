@@ -1,0 +1,319 @@
+<!-- 
+ * 파일 명 : restful.js
+ * @author : 주민지
+ * @date : 2022-03-07
+ * @description : 근무자 전체조회, 근무자 등록 만 동작
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HAPPYNUS</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <h1>HAPPYNUS</h1>
+      <p>
+        <a href="/login">login</a>
+        <a href="/signIn">signIn</a>
+        <input
+          class="bt"
+          type="button"
+          value="근로자 정보 가져오기"
+          onclick='document.targetURL.location.href="/api/emp"'
+        />
+        <input
+          class="bt"
+          type="button"
+          value="CSV로 근로자 정보 추가하기"
+          onclick='document.targetURL.location.href="/api/emp/csv"'
+        />
+        <!-- <input
+          class="bt"
+          type="button"
+          value="수정하기"
+          onclick='empUpdate(this)'
+        />
+        <script>
+          function empUpdate(e){
+            var position = e.value;
+            if (position === '신규간호사') {
+              document.getElementById("preceptor").disabled = false;  
+            } else {
+              document.getElementById("preceptor").disabled = true;
+            }
+          }
+        </script> -->
+      </p>
+
+      ------------------------------------------------------------------</br>
+
+      <p></p>
+      <form
+        method="post"
+        action="/api/emp/add"
+        name="empForm2"
+        target="targetURL"
+      >
+        신규 추가 사번 <input type="text" size="5" name="empNo" />
+        비밀번호 <input type="text" size="5" name="passwd" />
+        이름 <input type="text" size="5" name="empName" />
+        성별 <select name="sex">
+          <option value="none">=== 선택 ===</option>
+          <option value="f">여자</option>
+          <option value="m">남자</option>
+        </select>
+        전화번호 <input type="text" size="5" name="phoneNum" />
+        입사일자 <input type="text" size="5" name="empEntry" />
+        
+        <p></p>
+        부서
+        <select name="deptNo" onchange="categoryChange(this)">
+          <option>==해당 부서를 선택하세요==</option>
+          <option value="100">입원간호팀</option>
+          <option value="200">중환자간호팀</option>
+        </select>
+        
+        팀
+        <select id="teamNo" name="teamNo">
+          <option>==해당 팀을 선택하세요==</option>
+        </select>
+
+        <script>
+          function categoryChange(e) {
+            const objTeam100 = {"입원간호 1팀" : 1001 , "입원간호 2팀" : 1002}
+            const objTeam200 = {"신생아중환자실" : 2001 , "중환자실" : 2002}
+            var team100 = Object.keys(objTeam100)
+            var team200 = Object.keys(objTeam200)
+            var target = document.getElementById("teamNo");
+
+            if (e.value == "100") {
+              var key = team100;
+              var value = Object.values(objTeam100);
+            }
+            else if (e.value == "200") {
+              var key = team200;
+              var value = Object.values(objTeam200);
+            }
+            target.options.length = 0;
+
+            for (x in key) {
+              var opt = document.createElement("option");
+              opt.value = value[x]; //select box를 통해 전달하고자 하는 값
+              opt.innerHTML = key[x]; //select box를 통해 보여지는 요소 (여기선 key로 함)
+              target.appendChild(opt);
+            }
+          }
+        </script>
+
+        직급
+        <select name="position" onchange="preseptorDisalbe(this)">
+          <option value="none">=== 선택 ===</option>
+          <option value="신규간호사">신규간호사</option>
+          <option value="평간호사">평간호사</option>
+          <option value="책임간호사">책임간호사</option>
+          <option value="수간호사">수간호사</option>
+        </select>
+        
+        <script>
+          function preseptorDisalbe(e){
+            var position = e.value;
+            if (position === '신규간호사') {
+              document.getElementById("preceptor").disabled = false;  
+            } else {
+              document.getElementById("preceptor").disabled = true;
+            }
+          }
+        </script>
+
+        숙련도
+        <select name="levelCode">
+          <option value="none">=== 선택 ===</option>
+          <option value="0001">신규</option>
+          <option value="0010">일반</option>
+          <option value="0100">책임</option>
+          <option value="1000">전문</option>
+        </select>
+
+        특이사항
+        <select name="statRule">
+          <option value="none">=== 선택 ===</option>
+          <option value="00000">해당없음</option>
+          <option value="10000">임산부</option>
+          <option value="01000">나이트깁</option>
+          <option value="00100">상근근무자</option>
+          <option value="00010">프리셉터</option>
+          <option value="00001">교육생</option>
+          <option value="11000">임산부 + 나이트킵</option>
+          <option value="10010">임산부 + 프리셉터</option>
+          <option value="10001">임산부 + 교육생</option>
+        </select>
+        
+        <p></p>
+        프리셉터 사번 <input type="text" size="5" id="preceptor" name="preceptor"/>
+
+        권한
+        <select name="authCode">
+          <option value="none">=== 선택 ===</option>
+          <option value="001">일반사용자</option>
+          <option value="010">듀티관리자</option>
+          <option value="100">최종관리자</option>
+        </select>
+
+        <button type="submit" name="empAdd" formaction="/api/emp/add">
+          추가
+        </button>
+        <p></p>
+      </form>
+
+      ------------------------------------------------------------------</br>
+      
+      <form
+        method="post"
+        action="/api/emp/update"
+        name="empForm3"
+        target="targetURL"
+      >
+      <p></p>
+      근무자 정보 수정 사번 <input type="text" size="5" name="empNo" />
+      비밀번호 <input type="text" size="5" name="passwd" />
+      이름 <input type="text" size="5" name="empName" />
+      성별 <select name="sex">
+        <option value="none">=== 선택 ===</option>
+        <option value="f">여자</option>
+        <option value="m">남자</option>
+      </select>
+      전화번호 <input type="text" size="5" name="phoneNum" />
+      입사일자 <input type="text" size="5" name="empEntry" />
+      
+      <p></p>
+      부서
+      <select name="deptNo" onchange="categoryChangeUpdate(this)">
+        <option>==해당 부서를 선택하세요==</option>
+        <option value="100">입원간호팀</option>
+        <option value="200">중환자간호팀</option>
+      </select>
+      
+      팀
+      <select id="teamNoUpdate" name="teamNo">
+        <option>==해당 팀을 선택하세요==</option>
+      </select>
+
+      <script>
+        function categoryChangeUpdate(e) {
+          const objTeam100 = {"입원간호 1팀" : 1001 , "입원간호 2팀" : 1002}
+          const objTeam200 = {"신생아중환자실" : 2001 , "중환자실" : 2002}
+          var team100 = Object.keys(objTeam100)
+          var team200 = Object.keys(objTeam200)
+          var target = document.getElementById("teamNoUpdate");
+
+          if (e.value == "100") {
+            var key = team100;
+            var value = Object.values(objTeam100);
+          }
+          else if (e.value == "200") {
+            var key = team200;
+            var value = Object.values(objTeam200);
+          }
+          target.options.length = 0;
+
+          for (x in key) {
+            var opt = document.createElement("option");
+            opt.value = value[x]; //select box를 통해 전달하고자 하는 값
+            opt.innerHTML = key[x]; //select box를 통해 보여지는 요소 (여기선 key로 함)
+            target.appendChild(opt);
+          }
+        }
+      </script>
+
+      직급
+      <select name="position" onchange="preseptorDisalbeUpdate(this)">
+        <option value="none">=== 선택 ===</option>
+        <option value="신규간호사">신규간호사</option>
+        <option value="평간호사">평간호사</option>
+        <option value="책임간호사">책임간호사</option>
+        <option value="수간호사">수간호사</option>
+      </select>
+      
+      <script>
+        function preseptorDisalbeUpdate(e){
+          var position = e.value;
+          if (position === '신규간호사') {
+            document.getElementById("preceptorUpdate").disabled = false;  
+          } else {
+            document.getElementById("preceptorUpdate").disabled = true;
+          }
+        }
+      </script>
+
+      숙련도
+      <select name="levelCode">
+        <option value="none">=== 선택 ===</option>
+        <option value="0001">신규</option>
+        <option value="0010">일반</option>
+        <option value="0100">책임</option>
+        <option value="1000">전문</option>
+      </select>
+
+      특이사항
+      <select name="statRule">
+        <option value="none">=== 선택 ===</option>
+        <option value="00000">해당없음</option>
+        <option value="10000">임산부</option>
+        <option value="01000">나이트깁</option>
+        <option value="00100">상근근무자</option>
+        <option value="00010">프리셉터</option>
+        <option value="00001">교육생</option>
+        <option value="11000">임산부 + 나이트킵</option>
+        <option value="10010">임산부 + 프리셉터</option>
+        <option value="10001">임산부 + 교육생</option>
+      </select>
+      
+      <p></p>
+      프리셉터 사번 <input type="text" size="5" id="preceptorUpdate" name="preceptor"/>
+
+      권한
+      <select name="authCode">
+        <option value="none">=== 선택 ===</option>
+        <option value="001">일반사용자</option>
+        <option value="010">듀티관리자</option>
+        <option value="100">최종관리자</option>
+      </select>
+
+      <button type="submit" name="empAdd" formaction="/api/emp/update">
+        수정
+      </button>
+      <p></p>
+        <p></p>
+      </form>
+
+      <form
+        method="post"
+        action="/api/emp/delete"
+        name="empForm4"
+        target="targetURL"
+      >
+        삭 제 <input type="text" size="10" name="empNo" />
+        <button type="submit" name="teamDelete" formaction="/api/emp/delete">
+          삭제
+        </button>
+        <p></p>
+      </form>
+
+      ------------------------------------------------------------------<br />
+      
+      <iframe
+        name="targetURL"
+        class="iframe-preview center"
+        width="90%"
+        height="500"
+        style="border: none"
+        src=""
+      >
+      </iframe>
+    </div>
+  </body>
+</html>
