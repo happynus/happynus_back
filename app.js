@@ -44,8 +44,10 @@ app.use('/', normalMain);
 var shiftTable = require('./routes/shiftTable.js');
 app.use('/', shiftTable);
 
-// var nightTurn = require('./routes/nightTurn.js');
-// app.use('/', nightTurn);
+//nightTurnAPI
+var nightTurn = require('./routes/nightTurn.js');
+app.use('/', nightTurn);
+
 
 app.listen(PORT, () => {
   console.log(`BackServer run : http://localhost:${PORT}/`)
