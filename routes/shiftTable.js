@@ -51,8 +51,8 @@ getEmpData().then((emp1) => {
     let empNo = emp2.empNo;
     let empName = emp2.empName;
     const duty = [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0,
+      ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+      ' ', ' ', ' ', ' ', ' ', ' ',
     ];
     getShift().then((shift1) => {
       shift1
@@ -71,8 +71,8 @@ getEmpData().then((emp1) => {
     });
   });
   app.get("/shiftTable", (req, res) => {
-    res.send(empTotal);
-    //res.render("shiftTable", { emplist: empTotal });
+    //res.send(empTotal);
+    res.render("shiftTable", { emplist: empTotal });
   });
 });
 
