@@ -40,8 +40,12 @@ app.use('/', dutyMain);
 var normalMain = require('./routes/mainpage.js');
 app.use('/', normalMain);
 
-var nightTurn = require('./routes/nightTurn.js');
-app.use('/', nightTurn);
+//shiftTable을 위한 API
+var shiftTable = require('./routes/shiftTable.js');
+app.use('/', shiftTable);
+
+// var nightTurn = require('./routes/nightTurn.js');
+// app.use('/', nightTurn);
 
 app.listen(PORT, () => {
   console.log(`BackServer run : http://localhost:${PORT}/`)
