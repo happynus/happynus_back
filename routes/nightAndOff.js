@@ -202,18 +202,26 @@ connection.query(empNwork, function (err, result) {
             break;
         }
         //console.log(nightAndOff);
-        //nShift.push(nightAndOff);
-        connection.query(nightAndOff, function (err, result3) {
-          //console.log(`${result3.length}`+"개의 OF 배치 완료");
-          //console.log(result3);
-          //nShift.push(result3);
-        });
+        nShift.push(nightAndOff);
+        //console.log(nShift);
+        // connection.query(nightAndOff, function (err, result3) {
+        //   //console.log(`${result3.length}`+"개의 OF 배치 완료");
+        //   //console.log(result3);
+        //   //nShift.push(result3);
+        // });
       }
       //console.log(nShift);
     });
   }
-  app.get("/nightTurn", function (req, res) {
-    res.send("배치완료");
+  app.get("/nao", function (req, res) {
+    //console.log(nShift.length);
+    for (var j = 0; j < nShift.length; j++) {
+      connection.query(nShift[j], function (err, result3) {
+        //console.log(`${result3.length}`+"개의 OF 배치 완료");
+        //console.log(result3);
+      });
+    }
+    res.send("OF 배치완료");
   });
 });
 
