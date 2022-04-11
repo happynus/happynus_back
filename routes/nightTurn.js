@@ -150,7 +150,7 @@ function calculEmpNum(res_, count) {
           randValue.empNo +
           "\",'N')";
         connection.query(empInsert, function (err, result2) {
-          //console.log("일반근무자 배치완료");
+          console.log("일반근무자 배치완료");
         });
       }
     }
@@ -168,8 +168,8 @@ app.get("/nightTurn", function (req, res) {
   //임산부 안내
   connection.query(prgCodeSelector, function (err, result) {
     for (var data of result) {
-      //console.log("[임산부]", data.empNo);
-      //console.log("**나이트 근무 배치 불가**");
+      console.log("[임산부]", data.empNo);
+      console.log("**나이트 근무 배치 불가**");
     }
   });
 
@@ -198,7 +198,7 @@ app.get("/nightTurn", function (req, res) {
           );
         }
       }
-      //console.log("상근 근무자 배치완료");
+      console.log("상근 근무자 배치완료");
     });
   });
 
@@ -248,12 +248,12 @@ app.get("/nightTurn", function (req, res) {
             ", shiftCode from currentduty where empno=" +
             data.preceptor
         );
-        // console.log(
-        //   "동일 듀티 배치를 확인하세요:",
-        //   data.preceptor,
-        //   "&",
-        //   data.empno
-        // );
+        console.log(
+          "동일 듀티 배치를 확인하세요:",
+          data.preceptor,
+          "&",
+          data.empno
+        );
       }
       var empNwork =
         'select * from hospital.currentduty where empNo && shiftCode="N";';
@@ -435,31 +435,22 @@ app.get("/nightTurn", function (req, res) {
                   }
                   break;
               }
-              //console.log(nightAndOff);
               //nShift.push(nightAndOff);
               //console.log(nShift);
               connection.query(nightAndOff, function (err, result3) {
                 //console.log(`${result3.length}`+"개의 OF 배치 완료");
-                //console.log("OF배치완료");
+                console.log("OF배치완료");
                 //nShift.push(result3);
               });
             }
             //console.log(nShift);
           });
         }
-        //app.get("/nao", function (req, res) {
-          //console.log(nShift.length);
-          //for (var j = 0; j < nShift.length; j++) {
-            //connection.query(nightAndOff, function (err, result3) {
-              //console.log(`${result3.length}`+"개의 OF 배치 완료");
-              //console.log(result3);
-            //});
-          //}
-          //res.send("OF 배치완료");
-        //});
       });
     });
+    //res.send("기초시프트 배치완료");
   });
+  setTimeout(() => process.exit(0), 30000);
   res.send("기초시프트 배치완료");
 });
 
