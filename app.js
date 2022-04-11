@@ -11,6 +11,14 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname+ '/public')));
 
+let isDisableKeepAlive = false
+app.use(function(req, res, next) {
+  if (isDisableKeepAlive) {
+    res.set(`Connection`, `close`)
+  }
+  next()
+})
+
 //View_zone
 // app.get('/', function (req, res) {
 //   res.sendFile(path.join(__dirname+ '/screen/mainPage.html'));
@@ -48,7 +56,20 @@ app.use('/', shiftTable);
 var nightTurn = require('./routes/nightTurn.js');
 app.use('/', nightTurn);
 
+//test
+var nao = require('./routes/nightAndOff.js');
+app.use('/', nao);
+
 
 app.listen(PORT, () => {
+  process.send(`ready`)
   console.log(`BackServer run : http://localhost:${PORT}/`)
+})
+
+process.on(`SIGINT`, function () {
+  isDisableKeepAlive = true
+  app.close(function () {
+  console.log(`server closed`)
+  process.exit(0)
+  })
 })
