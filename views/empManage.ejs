@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>해피너스 * 근무자 관리</title>
+
+    <link rel="stylesheet" href="./css/superMain.css">
+    <link rel="stylesheet" href="./css/superEmp.css">
+<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="./css/owl.carousel.min.css">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+
+
+</head>
+<body>
+
+
+
+</div><nav class="main-menu">
+
+
+  
+    <div>
+       <a class="logo" href="">
+       </a> 
+     </div> 
+   <div class="settings"></div>
+   <div class="scrollbar" id="style-1">
+     
+    <img src="img/logo.png" width="50" height="42", padding-bottom="20px",  padding-left="2px">
+
+   <ul>
+    
+   <li class="darkerli">                                 
+   <a href="#">
+   <i class="fa fa-user fa-lg"></i>
+   <span class="nav-text"> <%= empName %>님, 안녕하세요!</span>
+   </a>
+   </li>   
+   
+   
+   <li>                                   
+    <a href="/superMain">
+    <i class="fa fa-home fa-lg"></i>
+    <span class="nav-text">메인페이지</span>
+    </a>
+    </li>   
+       
+       
+     
+   </li>
+   <li>
+   <a href="#">
+   <i class="fa fa-user-md"></i>
+   <span class="nav-text">근무자 관리</span>
+   </a>
+   </li>
+     
+   <li >
+   <a href="#">
+   <i class="fa fa-desktop fa-lg"></i>
+   <span class="nav-text">듀티 컨펌</span>
+   </a>
+   </li>
+     
+   </ul>
+
+     
+   <ul class="logout">
+   <li>
+<a href="/logout">
+                            <i class="fa fa-sign-out"></i>
+                           <span class="nav-text">
+                               로그아웃 
+                           </span>
+                           
+                       </a>
+   </li>
+   </ul>
+           </nav>
+           
+
+           <div class="content">
+    
+            <div class="container">
+              <h2 class="mb-5" style="margin-left: 421px;">전체 근무자 명단</h2>
+        
+              <div class="table-responsive">
+
+
+                <form action="#" method="get">
+                부서
+                <select name="deptNo" onchange="categoryChange(this)">
+                  <option>==해당 부서를 선택하세요==</option>
+                  <option value="100">입원간호팀</option>
+                  <option value="200">중환자간호팀</option>
+                </select>
+                
+                팀
+                <select id="teamNo" name="teamNo">
+                  <option>==해당 팀을 선택하세요==</option>
+                </select>
+
+                </form>
+
+
+
+                <table class="table custom-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">
+                        <label class="control control--checkbox">
+                          <input type="checkbox" class="js-check-all"/>
+                          <div class="control__indicator"></div>
+                        </label>
+                      </th>
+                      <th scope="col">사번</th>
+                      <th scope="col">이름</th>
+                      <th scope="col">부서/팀명</th>
+                      <th scope="col">직급</th>
+                      <th scope="col">입사일</th>
+                      <th scope="col">연락처</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <% for(let i=0; i<emps.length; i++){%>
+                    <tr>
+                      <th scope="row">
+                        <label class="control control--checkbox">
+                          <input type="checkbox"/>
+                          <div class="control__indicator"></div>
+                        </label>
+                      </th>
+                      <td><%=emps[i].empNo%></td>
+                      <td><%=emps[i].empName%></td>
+                      <td>
+                        <%=emps[i].deptNo%>
+                        <small class="d-block"><%=emps[i].teamNo%></small>
+                      </td>
+                      <td><%=emps[i].position%></td>
+                      <td><%=emps[i].empEntry%></td>
+                      <td><%=emps[i].phoneNum%></td>
+                    </tr>
+                    <%}%>
+
+                  </tbody>
+                </table>
+              </div>
+        
+        
+            </div>
+        
+          </div>
+            
+               
+          <script src="./js/jquery-3.3.1.min.js"></script>
+          <script src="./js/popper.min.js"></script>
+          <script src="./js/bootstrap.min.js"></script>
+          <script src="./js/main.js"></script>   
+
+
+</body>
+</html>

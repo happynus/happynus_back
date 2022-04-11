@@ -1,61 +1,45 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="./css/login.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <title>** 해 피 너 스 **</title>
-  </head>
-  <body>
-    <div class="container" id="container">
-      <div class="form-container log-in-container">
-        <form action="/" method="post">
-          <h1>L O G I N</h1>
-          <br />
-          <br />
-          <span>원활한 서비스 이용을 위해 로그인하세요</span><br />
+<head>
+	<link rel="stylesheet" href="./css/login.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>** 해 피 너 스 **</title>
+</head>
+<body>
+	<div class="container" id="container">
+		<div class="form-container log-in-container">
+
+			<form action="/" method="post">
+				<h1>L O G I N</h1>
+        <br>
+        <br>
+				<span>원활한 서비스 이용을 위해 로그인하세요</span><br>
 
           <div class="radio-group">
-            <input type="radio" id="option-one" name="authCode" value="100" />
-            <label for="option-one">최고관리자</label>
-            <input type="radio" id="option-two" name="authCode" value="010" />
-            <label for="option-two">듀티관리자</label>
-            <input type="radio" id="option-three" name="authCode" value="001" />
-            <label for="option-three">일반사용자</label>
-          </div>
-
-          <input
-            type="text"
-            id="empNo"
-            name="empNo"
-            placeholder="사번을 입력하세요"
-          />
-          <input
-            type="password"
-            id="passwd"
-            name="passwd"
-            placeholder="패스워드를 입력하세요"
-          /><br />
-          <button type="submit">로그인</button>
-        </form>
-      </div>
-      <div class="overlay-container">
-        <div class="overlay">
-          <div class="overlay-panel overlay-right">
-            <img src="./img/logo.png" alt="로고" width="52%" /><br />
-            <h3>간호 듀티 작성 자동화 서비스</h3>
-            <h1>H A P P Y N U S</h1>
-            <p>
-              간호팀별 한 달 듀티를 생성하세요!<br />
-              로그인한 사용자만 서비스를 사용할 수 있으며, 아이디와 패스워드는
-              입사시 사번으로 <br />
-              일괄 가입 및 배부됩니다.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
+         <input type="radio" id="option-one" name="authCode" value="100">
+         <label for="option-one">최고관리자</label>
+         <input type="radio" id="option-two" name="authCode"  value="010">
+         <label for="option-two">듀티관리자</label>
+         <input type="radio" id="option-three" name="authCode"  value="001">
+         <label for="option-three">일반사용자</label>
+           </div>
+  
+				<input type="text" id="empNo" name="empNo" placeholder="사번을 입력하세요" />
+				<input type="password" id="passwd" name="passwd" placeholder="패스워드를 입력하세요" /><br>
+				<button type="submit">로그인</button>
+			</form>
+		</div>
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-right">
+          <img src="./img/logo.png" alt="로고" width="52%"><br>
+					<h3>간호 듀티 작성 자동화 서비스</h3>
+          <h1>H A P P Y N U S</h1>
+					<p>간호팀별 한 달 듀티를 생성하세요!<br>
+          로그인한 사용자만 서비스를 사용할 수 있으며, 아이디와 패스워드는 입사시 사번으로 <br> 일괄 가입 및 배부됩니다.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
 </html>

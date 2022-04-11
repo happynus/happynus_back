@@ -33,46 +33,33 @@ app.get("/api/emp", function (req, res) {
   empLookUp("hospital.emp", res);
 });
 
-// 사번, 부서, 팀, 특이사항, 권한별 출력
-app.get("/api/emp/empno", function (req, res) {
-  var deptno = req.query.deptno;
-  console.log(deptno);
-  connection.query(
-    "select nurse.empno, nurse.name, dept.dept, \
-	team.team, nurse.position from nurse, dept, \
-	team where nurse.deptno=dept.deptno and nurse.teamno=team.teamno and (nurse.deptno=?)",
-    deptno,
-    function (err, results, fields) {
-      if (err) throw err;
-      else console.log("select " + results.length + " rows.");
-      for (i = 0; i < results.length; i++) {
-        console.log(JSON.stringify(results[i]));
-      }
-      res.json(results);
-      console.log("*** DONE ***");
+// 전체 근무자 출력 팀이름 등만 출력하도록 함
+app.get('/api/emp/total', function(req,res){
+  var getWholeEmp = "select emp.empNo, emp.empName, dept.deptName, team.teamName, emp.position,emp.empEntry,emp.phoneNum from emp,dept,team where emp.deptNo=dept.deptNo and emp.teamNo=team.teamNo;"
+ connection.query(getWholeEmp, function(err, results, fields){
+    if(err) throw err;
+    else console.log('select ' + results.length + ' rows.');
+    for (i=0; i < results.length; i++){
+       //console.log(JSON.stringify(results[i]));
     }
-  );
+    res.json(results);
+ })
 });
 
 //팀별 출력
-app.get("/api/emp/team", function (req, res) {
-  var teamno = req.query.teamno;
-  //	console.log(deptno, teamno)
-  connection.query(
-    "select nurse.empno, nurse.name, dept.dept, team.team, nurse.position from nurse, dept, team where nurse.deptno=dept.deptno and nurse.teamno=team.teamno and (nurse.teamno=?)",
-    teamno,
-    function (err, results, fields) {
-      console.log(teamno);
-      if (err) throw err;
-      else console.log("select " + results.length + " rows.");
-      for (i = 0; i < results.length; i++) {
-        console.log(JSON.stringify(results[i]));
-      }
-      res.json(results);
-      console.log("done.");
+app.post("/api/emp/team", function(req, res){
+ var teamNo = req.body.teamNo;
+
+  var getByTeam = "select emp.empNo, emp.empName, dept.deptName, team.teamName, emp.position,emp.empEntry,emp.phoneNum from emp,dept,team where emp.deptNo=dept.deptNo and emp.teamNo=team.teamNo and (emp.teamNo=?)"
+ connection.query(getByTeam, teamNo, function(err, results, fields){
+    if(err) throw err;
+    else console.log('select ' +results.length + ' rows.');
+    for (i=0; i<results.length; i++){
+       //console.log(JSON.stringify(results[i]));
     }
-  );
-});
+    res.json(results);
+ })
+})
 
 //신규근무자 추가v
 app.post("/api/emp/add", (req, res) => {

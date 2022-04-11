@@ -7,7 +7,13 @@
     <title>해피너스 * 최고관리자</title>
 
     <link rel="stylesheet" href="./css/superMain.css">
+    <link rel="stylesheet" href="./css/superEmp.css">
 <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="./css/owl.carousel.min.css">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+
 
 </head>
 <body>
@@ -28,41 +34,33 @@
     <img src="img/logo.png" width="50" height="42", padding-bottom="20px",  padding-left="2px">
 
    <ul>
-     
-   <li>                                   
-   <a href="/superMain">
-   <i class="fa fa-home fa-lg"></i>
-   <span class="nav-text">메인페이지</span>
-   </a>
-   </li>   
-      
-   <li>                                 
+    
+   <li class="darkerli">                                 
    <a href="#">
    <i class="fa fa-user fa-lg"></i>
-   <span class="nav-text"> <%= empName %> </span>
+   <span class="nav-text"> <%= empName %>님, 안녕하세요!</span>
    </a>
    </li>   
    
+   
+   <li>                                   
+    <a href="/superMain">
+    <i class="fa fa-home fa-lg"></i>
+    <span class="nav-text">메인페이지</span>
+    </a>
+    </li>   
        
-   <li>                                 
-   <a href="#">
-   <i class="fa fa-envelope-o fa-lg"></i>
-   <span class="nav-text">연락</span>
-   </a>
-   </li>   
-     
-                       
-     
+       
      
    </li>
-   <li class="darkerlishadow">
-   <a href="#">
+   <li>
+   <a href="/empManage">
    <i class="fa fa-user-md"></i>
    <span class="nav-text">근무자 관리</span>
    </a>
    </li>
      
-   <li class="darkerli">
+   <li >
    <a href="#">
    <i class="fa fa-desktop fa-lg"></i>
    <span class="nav-text">듀티 컨펌</span>
@@ -71,7 +69,6 @@
      
    </ul>
 
-       
      
    <ul class="logout">
    <li>
@@ -86,9 +83,17 @@
    </ul>
            </nav>
            
+           <div>
+            <iframe
+                   name="targetURL"
+                   class="iframe-preview center"
+                   width="100%"
+                   height="900"
+                   style="border: none; margin-top: 50px;margin-left: 200px;width: 1180px;"
+                   src="http://localhost:5000/shiftTable"
+                 >
+                 </iframe>
+          </div>
 
-               
-     
-     
 </body>
 </html>
