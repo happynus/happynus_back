@@ -13,13 +13,13 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname + "/public")));
 
-let isDisableKeepAlive = false;
-app.use(function (req, res, next) {
-  if (isDisableKeepAlive) {
-    res.set(`Connection`, `close`);
-  }
-  next();
-});
+// let isDisableKeepAlive = false;
+// app.use(function (req, res, next) {
+//   if (isDisableKeepAlive) {
+//     res.set(`Connection`, `close`);
+//   }
+//   next();
+// });
 
 // 세션 설정
 app.use(
@@ -86,14 +86,14 @@ var empManage = require('./routes/mainpage.js');
 app.use('/', empManage);
 
 app.listen(PORT, () => {
-  process.send(`ready`);
+  //process.send(`ready`);
   console.log(`BackServer run : http://localhost:${PORT}/`);
 });
 
-process.on(`SIGINT`, function () {
-  isDisableKeepAlive = true;
-  app.close(function () {
-    console.log(`server closed`);
-    process.exit(0);
-  });
-});
+// process.on(`SIGINT`, function () {
+//   isDisableKeepAlive = true;
+//   app.close(function () {
+//     console.log(`server closed`);
+//     process.exit(0);
+//   });
+// });

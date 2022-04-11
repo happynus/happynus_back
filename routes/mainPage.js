@@ -26,35 +26,13 @@ app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 
 
-app.use(session({
-	key: 'hnduty',
-	secret: 'nextlevel',
-	resave:false,
-	saveUninitialized:false,
-	store: new MySQLStore({
-		host: 'mysql-hnduty.mysql.database.azure.com',
-		port:'3306',
-		user: 'hnadmin',
-		password: 'hn!753159',
-		database: 'session'
-	})
-  }));
 
 
-// app.get ('/superMain', function(req,res){
-//   res.send("슈퍼관리자")
-// })
+app.get ('/superMain', function(req,res){
+  res.send("슈퍼관리자")
+});
 
-  app.get('/superMain',function(req,res){
-    console.log("메인",req.session.empNo)
-    //res.send("슈퍼관리자")
-      res.render('superMain',{
-        isLogined: true, 
-        empName: req.session.empName, 
-        authCode: req.session.authCode,
-        empNo: req.session.empNo
-      });
-  })
+
 
   app.get ('/dutyMain', function(req,res){
     res.render('dutyMain',{
@@ -87,23 +65,19 @@ app.get ('/myDuty', function(req,res){
 })
 
 
-app.get('/empManage', function(req, res, next){
-  request("https://dutyapi.azurewebsites.net/api/emp/", function(error, response, body){
-    if(error){
-      console.log(error)
-    }
-    var obj = JSON.parse(body)
-      res.render('empManage', {
-    emps:obj,
-    isLogined: true, 
-    empName: req.session.empName, 
-    authCode: req.session.authCode,
-    empNo: req.session.empNo
-  })
-  })
 
-})
 
+
+  // app.get('/superMain',function(req,res){
+  //   console.log("메인",req.session.empNo)
+  //   //res.send("슈퍼관리자")
+  //     res.render('superMain',{
+  //       isLogined: true, 
+  //       empName: req.session.empName, 
+  //       authCode: req.session.authCode,
+  //       empNo: req.session.empNo
+  //     });
+  // })
 
 
 // app.get ('/normalMain', function(req,res){

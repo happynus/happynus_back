@@ -450,7 +450,7 @@ app.get("/nightTurn", function (req, res) {
     });
     //res.send("기초시프트 배치완료");
   });
-  setTimeout(() => process.exit(0), 30000);
+  //setTimeout(() => process.exit(0), 30000);
   res.send("기초시프트 배치완료");
 });
 
