@@ -31,6 +31,9 @@ app.use(
 );
 
 //Router_zone
+var empManageAPI = require("./routes/empManageAPI.js");
+app.use("/", empManageAPI);
+
 //logIn
 var login = require("./routes/logInNOut.js");
 app.use("/", login);
