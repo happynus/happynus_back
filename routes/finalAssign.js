@@ -159,7 +159,7 @@ function wholeDates(startDate,endDate){
 //현재 배정된 날짜 가져오기
 var assignedDates = []
 function savedDates(empNo,callback){
-    connection.query("select date from currentdutytest where empNo="+empNo, function(err, result){
+    connection.query("select date from currentduty where empNo="+empNo, function(err, result){
         for (var data of result){
             assignedDates.push(data.date)
         }
@@ -189,7 +189,7 @@ app.get('/finalAssign', function(req,res){
         for (var data of result){
             availableDate(data.empNo, function(thisMonthDates){
                 for (i=0; i<thisMonthDates.length; i++){
-                    connection.query("insert into currentdutytest (month, date, teamNo, deptNo, empNo, shiftCode) values (\"" + nextMonth + '","' + ("00" + thisMonthDates[i].toString()).slice(-2) + '",'+data.teamNo+','+ data.deptNo+ ','+ "'"+data.empNo+"', '잔여일수정')")
+                    connection.query("insert into currentduty (month, date, teamNo, deptNo, empNo, shiftCode) values (\"" + nextMonth + '","' + ("00" + thisMonthDates[i].toString()).slice(-2) + '",'+data.teamNo+','+ data.deptNo+ ','+ "'"+data.empNo+"', '잔여일수정')")
                 }
             })
         }
