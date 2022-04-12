@@ -22,7 +22,7 @@ app.get("/api/orderDuty", function (req, res) {
     if (err) {
       console.log("실패");
     } else {
-      console.log("N근무를 모두 정렬해서 가져왔습니다.");
+      //console.log("N근무를 모두 정렬해서 가져왔습니다.");
       res.json(result);
     }
   });
