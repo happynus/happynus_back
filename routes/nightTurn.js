@@ -7,6 +7,7 @@ var fs = require("fs");
 var mysql = require("mysql");
 const path = require("path");
 const holidays = require("holidays-kr");
+const { DEC8_BIN } = require("mysql/lib/protocol/constants/charsets");
 holidays.serviceKey =
   "2DA93J%2BpAcN2rk%2FqZFXmjsIem1Jp7ujROUeQReR8ER5NyVp2Khuuk4CBvmhl9iCiBHsf1UXC18Haf%2FTEILDNlQ%3D%3D";
 
@@ -450,7 +451,7 @@ app.get("/nightTurn", function (req, res) {
     });
     //res.send("기초시프트 배치완료");
   });
-  setTimeout(() => process.exit(0), 30000);
+  //setTimeout(() => process.exit(0), 30000);
   res.send("기초시프트 배치완료");
 });
 
