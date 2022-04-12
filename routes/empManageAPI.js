@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 
 const {
   connection,
+  getConnection,
   empLookUp,
   insertEmpData,
   modifyEmp,
@@ -34,32 +35,41 @@ app.get("/api/emp", function (req, res) {
 });
 
 // 전체 근무자 출력 팀이름 등만 출력하도록 함
-app.get('/api/emp/total', function(req,res){
-  var getWholeEmp = "select emp.empNo, emp.empName, dept.deptName, team.teamName, emp.position,date_format(emp.empEntry,'%Y/%m/%d'),emp.phoneNum from emp,dept,team where emp.deptNo=dept.deptNo and emp.teamNo=team.teamNo"
- connection.query(getWholeEmp, function(err, results, fields){
-    if(err) throw err;
-    else console.log('select ' + results.length + ' rows.');
-    for (i=0; i < results.length; i++){
-       //console.log(JSON.stringify(results[i]));
-    }
-    res.json(results);
- })
+app.get("/api/emp/total", function (req, res) {
+  getConnection((conn) => {
+    var getWholeEmp =
+      "select emp.empNo, emp.empName, dept.deptName, team.teamName, emp.position,date_format(emp.empEntry,'%Y/%m/%d') as empEntry,emp.phoneNum from emp,dept,team where emp.deptNo=dept.deptNo and emp.teamNo=team.teamNo";
+    conn.query(getWholeEmp, function (err, results, fields) {
+      if (err) throw err;
+      else console.log("select " + results.length + " rows.");
+      for (i = 0; i < results.length; i++) {
+        //console.log(JSON.stringify(results[i]));
+      }
+      res.json(results);
+    });
+    conn.release();
+    console.log("conn 마감")
+  });
 });
 
 //팀별 출력
-app.post("/api/emp/team", function(req, res){
- var teamNo = req.body.teamNo;
-
-  var getByTeam = "select emp.empNo, emp.empName, dept.deptName, team.teamName, emp.position,emp.date_format(emp.empEntry,'%Y/%m/%d'),emp.phoneNum from emp,dept,team where emp.deptNo=dept.deptNo and emp.teamNo=team.teamNo and (emp.teamNo=?)"
- connection.query(getByTeam, teamNo, function(err, results, fields){
-    if(err) throw err;
-    else console.log('select ' +results.length + ' rows.');
-    for (i=0; i<results.length; i++){
-       //console.log(JSON.stringify(results[i]));
-    }
-    res.json(results);
- })
-})
+app.post("/api/emp/team", function (req, res) {
+  getConnection((conn) => {
+    var teamNo = req.body.teamNo;
+    var getByTeam =
+      "select emp.empNo, emp.empName, dept.deptName, team.teamName, emp.position,date_format(emp.empEntry,'%Y/%m/%d') as empEntry,emp.phoneNum from emp,dept,team where emp.deptNo=dept.deptNo and emp.teamNo=team.teamNo and (emp.teamNo=?)";
+    conn.query(getByTeam, teamNo, function (err, results, fields) {
+      if (err) throw err;
+      else console.log("select " + results.length + " rows.");
+      for (i = 0; i < results.length; i++) {
+        //console.log(JSON.stringify(results[i]));
+      }
+      res.json(results);
+    });
+    conn.release();
+    console.log("conn 마감")
+  });
+});
 
 //신규근무자 추가v
 app.post("/api/emp/add", (req, res) => {
@@ -78,21 +88,21 @@ app.post("/api/emp/add", (req, res) => {
   var authCode = req.body.authCode;
 
   var sqlInsert = {
-    empNo:empNo,
-    passwd:passwd,
-    empName:empName,
-    sex:sex,
-    phoneNum:phoneNum,
-    empEntry:empEntry,
-    deptNo:deptNo,
-    teamNo:teamNo,
-    position:position,
-    levelCode:levelCode,
-    statRule:statRule,
-    preceptor:preceptor,
-    authCode:authCode,
+    empNo: empNo,
+    passwd: passwd,
+    empName: empName,
+    sex: sex,
+    phoneNum: phoneNum,
+    empEntry: empEntry,
+    deptNo: deptNo,
+    teamNo: teamNo,
+    position: position,
+    levelCode: levelCode,
+    statRule: statRule,
+    preceptor: preceptor,
+    authCode: authCode,
   };
-  insertEmpData(empNo, "hospital.emp", sqlInsert, res)
+  insertEmpData(empNo, "hospital.emp", sqlInsert, res);
 });
 
 //기존 근무자 정보 수정v
@@ -112,19 +122,19 @@ app.post("/api/emp/update", function (req, res) {
   var authCode = req.body.authCode;
 
   var sqlInsert = {
-    empNo:empNo,
-    passwd:passwd,
-    empName:empName,
-    sex:sex,
-    phoneNum:phoneNum,
-    empEntry:empEntry,
-    deptNo:deptNo,
-    teamNo:teamNo,
-    position:position,
-    levelCode:levelCode,
-    statRule:statRule,
-    preceptor:preceptor,
-    authCode:authCode,
+    empNo: empNo,
+    passwd: passwd,
+    empName: empName,
+    sex: sex,
+    phoneNum: phoneNum,
+    empEntry: empEntry,
+    deptNo: deptNo,
+    teamNo: teamNo,
+    position: position,
+    levelCode: levelCode,
+    statRule: statRule,
+    preceptor: preceptor,
+    authCode: authCode,
   };
 
   modifyEmp("empNo", "hospital.emp", sqlInsert, empNo, res);
