@@ -1,0 +1,8 @@
+{
+    "host": "mysql-hnduty.mysql.database.azure.com",
+    "user": "hnadmin",
+    "password": "hn!753159",
+    "database": "hospital",
+    "port": 3306,
+    "connectionLimit": 30
+  }

@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 var fs = require("fs");
 var mysql = require("mysql");
-//const {app} = require("../routes/restful.js");
+const config = require("./db_config.json");
 
 /**
  * 파일 명 : dao.js
@@ -19,6 +19,16 @@ var connection = mysql.createConnection({
   database: "hospital",
   port: 3306,
 });
+
+let pool = mysql.createPool(config);
+
+function getConnection(callback) {
+  pool.getConnection(function (err, conn) {
+    if (!err) {
+      callback(conn);
+    }
+  });
+}
 
 //selectFields : 내가 선택하려는 세로줄
 //queryParameters : 쿼리에 따라 변하는 수
@@ -51,6 +61,8 @@ var dbconn2 = function (
 
 module.exports = {
   connection,
+
+  getConnection,
 
   empLookUp: function (tableName, processResult) {
     var empList = "SELECT * FROM " + tableName;
