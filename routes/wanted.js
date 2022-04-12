@@ -74,7 +74,7 @@ function wholeDates(startDate,endDate){
 //배정된 나이트 날짜 가져오기
 var assignedDates = []
 function savedDates(empNo,callback){
-    connection.query("select date from currentdutytest where empNo="+empNo, function(err, result){
+    connection.query("select date from currentduty where empNo="+empNo, function(err, result){
         for (var data of result){
             assignedDates.push(data.date)
         }
@@ -111,13 +111,13 @@ function availableDate(empNo,callback){
 
 if (statRule == '00100' || statRule == '10100'){
     console.log(statRule, empNo,"상근")
-    connection.query("update currentdutytest set shiftCode='"+empShift+"' where empNo='"+empNo+"' and date='"+empDate+"'")
+    connection.query("update currentduty set shiftCode='"+empShift+"' where empNo='"+empNo+"' and date='"+empDate+"'")
     if (empShift=='ca' || empShift=='mo' || empShift=='yo'){
         connection.query("insert into wanted (month,date,cautionCode,empNo) values ('"+nextMonth+"', '"+empDate+"', '"+empShift+"', '"+empNo+"')")
     }
 } else{
     console.log(statRule, "비상근")
-   connection.query("insert into currentdutytest (month,date,teamNo,deptNo,empNo,shiftCode) values ('" +nextMonth+ "'," +"'"+empDate+"',"+ teamNo+","+deptNo+","+empNo+","+"'"+empShift+"')")
+   connection.query("insert into currentduty (month,date,teamNo,deptNo,empNo,shiftCode) values ('" +nextMonth+ "'," +"'"+empDate+"',"+ teamNo+","+deptNo+","+empNo+","+"'"+empShift+"')")
    if (empShift=='ca' || empShift=='mo' || empShift=='yo' || empShift=='ho'){
     connection.query("insert into wanted (month,date,cautionCode,empNo) values ('"+nextMonth+"', '"+empDate+"', '"+empShift+"', '"+empNo+"')")
 }
