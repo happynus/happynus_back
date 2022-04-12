@@ -1,13 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const axios = require("axios");
+const { connection, getConnection } = require("../config/dao.js");
 
 /**
  * 파일 명 : shiftTable.js
  * @author : 주민지
- * @date : 2022-04-09
- * @description : shiftTable을 만들기 위한 api.
+ * @date : 2022-04-12
+ * @description : shiftTable배치.
  */
 
 app.use(bodyParser.json());
@@ -15,64 +15,68 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//전 사원 정보를 가져옴
-const getEmpData = async () => {
-  let empData = await axios.get(
-    "http://localhost:5000/api/emp"
-  );
-  //console.log(shift.data);
-  return empData.data;
-};
+app.get("/shiftTable", function (req, res) {
+  getConnection((conn) => {
+    //console.log("conn 시작");
+    var empNwork =
+      "select currentduty.empNo, currentduty.month, currentduty.date, currentduty.teamNo, currentduty.deptNo, currentduty.shiftCode, emp.position, emp.empname from currentduty, emp where emp.empno=currentduty.empno;";
+    conn.query(empNwork, function (err, result) {
+      if (err) {
+        console.log("실패");
+      } else {
+        const empList = new Array();
+        for (var i = 0; i < result.length; i++) {
+          empList.push({
+            teamNo: result[i].teamNo,
+            position: result[i].position,
+            empNo: result[i].empNo,
+            empName: result[i].empname,
+          });
+        }
+        //console.log(empNo);
+        function removeDuplicates(data, key) {
+          return [
+            ...new Map(data.map(item => [key(item), item])).values()
+          ]
+        };
+        var removeDup = removeDuplicates(empList, item => item.empNo) 
+        //console.log(removeDup);
 
-//사원들의 Night시프트와 OF시프트를 가져옴
-const getShift = async () => {
-  let shift = await axios.get(
-    "http://localhost:5000/api/orderDuty"
-  );
-  //console.log(shift.data);
-  return shift.data;
-};
-//console.log(getShift());
-
-// //중복을 없엔 사원들의 사번 정보를 가져옴
-// const getNDistint = async () => {
-//   let dist = await axios.get(
-//     "https://dutyapi-staging.azurewebsites.net/api/distinct"
-//   );
-//   //console.log(dist.data);
-//   return dist.data;
-// };
-
-var empTotal = [];
-getEmpData().then((emp1) => {
-  emp1.map((emp2) => {
-    let teamNo = emp2.teamNo;
-    let position = emp2.position;
-    let empNo = emp2.empNo;
-    let empName = emp2.empName;
-    const duty = [
-      ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-      ' ', ' ', ' ', ' ', ' ', ' ',
-    ];
-    getShift().then((shift1) => {
-      shift1
-        .filter((shift2) => shift2.month === "05")
-        .map((shift2) => {
-          if (emp2.empNo == shift2.empNo) {
-            //console.log(Nshift.shiftCode);
-            //console.log(Nshift.date);
-            duty.splice(parseInt(shift2.date) - 1, 1, shift2.shiftCode);
-            //console.log(date2);
+        var empTotal = [];
+        for (var j = 0; j < removeDup.length; j++) {
+          const duty = [
+            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+            ' ', ' ', ' ', ' ', ' ', ' ',
+          ];
+          //console.log(removeDup[j].empNo)
+          for (var shift = 0; shift < result.length; shift++) {
+            if (
+              result[shift].month == "05" &&
+              removeDup[j].empNo == result[shift].empNo
+            ) {
+              duty.splice(
+                parseInt(result[shift].date) - 1,
+                1,
+                result[shift].shiftCode
+              );
+            }
           }
-        });
-      //let shiftN = { [keyName.toString()]: date };
-      let shiftN = { teamNo : teamNo, position : position, empNo : empNo, empName : empName, duty : duty};
-      empTotal.push(shiftN);
+          let shiftN = {
+            teamNo: removeDup[j].teamNo,
+            position: removeDup[j].position,
+            empNo: removeDup[j].empNo,
+            empName: removeDup[j].empName,
+            duty: duty,
+          };
+          //console.log(duty);
+          empTotal.push(shiftN);
+        }
+        //console.log(empTotal);
+        res.render("shiftTable", { emplist: empTotal });
+      }
     });
-  });
-  app.get("/shiftTable", (req, res) => {
-    //res.send(empTotal);
-    res.render("shiftTable", { emplist: empTotal });
+    conn.release();
+    //console.log("conn 마감");
   });
 });
 
