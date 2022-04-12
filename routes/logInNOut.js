@@ -29,18 +29,6 @@ app.use(cookieParser());
 // cookie-parser 설정
 app.use(cookieParser());
 
-// // 세션 설정
-// app.use(session({
-//   key: 'hnduty',
-//   secret: 'nextlevel',
-//   resave:false,
-//   saveUninitialized:false,
-//   store: new FileStore(), 
-//  cookie: {
-//     maxAge: 1000 * 60 * 60 // 쿠키 유효기간 1시간
-//   }
-// }));
-
 
 
 //날짜 정의
@@ -108,14 +96,12 @@ app.post('/', function(req,res){
     const empNo = req.body.empNo
     const passwd = req.body.passwd
     const authCode = req.body.authCode
-    console.log("여기!",req.body.authCode)
 
     connection.query('select empNo, passwd, empName, authCode, deptNo, teamNo, statRule from emp where empNo=? and passwd=? and authCode=?', [empNo,passwd,authCode], function(err, rows){
         if (rows.length){
             if(rows[0].empNo==empNo && rows[0].passwd==passwd &&rows[0].authCode==authCode ){
                     if(rows.length){
                         if (rows[0].authCode=='100'){
-                            console.log("최고관리자", rows[0].empNo)
                             req.session.empNo=rows[0].empNo
                             req.session.passwd=rows[0].passwd
                             req.session.empName=rows[0].empName
@@ -126,10 +112,9 @@ app.post('/', function(req,res){
                             req.session.isLogined=true
                             req.session.save();
                             console.log(req.session)
-                            res.redirect('/superMain');
+                            res.redirect('http://localhost:3000/superadm');
 
                         } else if(rows[0].authCode=='010'){
-                            console.log("듀티관리자", rows[0].empNo, "권한코드", rows[0].authCode)
                             req.session.empNo=rows[0].empNo
                             req.session.passwd=rows[0].passwd
                             req.session.empName=rows[0].empName
@@ -140,9 +125,8 @@ app.post('/', function(req,res){
                             req.session.isLogined=true
                             req.session.save();
                             console.log(req.session)
-                            res.redirect('/dutyMain');
+                            res.redirect('http://localhost:3000/dutyadm');
                         }else{
-                            console.log("일반사용자", rows[0].empNo)
                             req.session.empNo=rows[0].empNo
                             req.session.passwd=rows[0].passwd
                             req.session.empName=rows[0].empName
@@ -152,7 +136,7 @@ app.post('/', function(req,res){
                             req.session.statRule=rows[0].statRule
                             req.session.isLogined=true
                             req.session.save(function(){
-                                res.redirect('normalMain');
+                                res.redirect('http://localhost:3000/normal');
                             });
                             console.log(req.session)
                             
@@ -161,7 +145,7 @@ app.post('/', function(req,res){
                     }
                  }                    
              }else{
-                        res.send("<script>alert('사용자 정보가 일치하지 않습니다');location.href='http://localhost:3000/';</script>");
+                        res.send("<script>alert('사용자 정보가 일치하지 않습니다');location.href='http://localhost:3000/login';</script>");
                         console.log("로그인 실패")
             }
     })
@@ -173,13 +157,9 @@ app.post('/', function(req,res){
     app.get('/logout',function(req, res){
         if(req.session.empNo){
             console.log(req.session)
-                req.session.destroy();  // 세션 삭제
-               res.send("<script>alert('로그아웃 되었습니다.');location.href='/';</script>");
+            req.session.destroy();  // 세션 삭제
         }else{
             console.log('로그인 상태 아님');
-            //res.send("로그인 상태 아님!")
-            // req.session.destroy();  // 세션 삭제
-            //    res.send("<script>alert('로그아웃 되었습니다.');location.href='/';</script>");
         }
     });
 
