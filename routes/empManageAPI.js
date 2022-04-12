@@ -50,7 +50,7 @@ app.get('/api/emp/total', function(req,res){
 app.post("/api/emp/team", function(req, res){
  var teamNo = req.body.teamNo;
 
-  var getByTeam = "select emp.empNo, emp.empName, dept.deptName, team.teamName, emp.position,emp.empEntry,emp.phoneNum from emp,dept,team where emp.deptNo=dept.deptNo and emp.teamNo=team.teamNo and (emp.teamNo=?)"
+  var getByTeam = "select emp.empNo, emp.empName, dept.deptName, team.teamName, emp.position,emp.date_format(emp.empEntry,'%Y/%m/%d'),emp.phoneNum from emp,dept,team where emp.deptNo=dept.deptNo and emp.teamNo=team.teamNo and (emp.teamNo=?)"
  connection.query(getByTeam, teamNo, function(err, results, fields){
     if(err) throw err;
     else console.log('select ' +results.length + ' rows.');
