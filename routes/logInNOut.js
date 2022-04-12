@@ -62,7 +62,7 @@ function wholeDates(startDate,endDate){
 //배정된 나이트 날짜 가져오기
 var assignedDates = []
 function savedDates(empNo,callback){
-    connection.query("select date from currentdutytest where empNo="+empNo, function(err, result){
+    connection.query("select date from currentduty where empNo="+empNo, function(err, result){
         for (var data of result){
             assignedDates.push(data.date)
         }

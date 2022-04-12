@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 //전 사원 정보를 가져옴
 const getEmpData = async () => {
   let empData = await axios.get(
-    "https://dutyapi-staging.azurewebsites.net/api/emp"
+    "https://dutyapi-dutyapi-test.azurewebsites.net/api/emp"
   );
   //console.log(shift.data);
   return empData.data;
@@ -27,21 +27,21 @@ const getEmpData = async () => {
 //사원들의 Night시프트와 OF시프트를 가져옴
 const getShift = async () => {
   let shift = await axios.get(
-    "https://dutyapi-staging.azurewebsites.net/api/orderDuty"
+    "https://dutyapi-dutyapi-test.azurewebsites.net/api/orderDuty"
   );
   //console.log(shift.data);
   return shift.data;
 };
 //console.log(getShift());
 
-//중복을 없엔 사원들의 사번 정보를 가져옴
-const getNDistint = async () => {
-  let dist = await axios.get(
-    "https://dutyapi-staging.azurewebsites.net/api/distinct"
-  );
-  //console.log(dist.data);
-  return dist.data;
-};
+// //중복을 없엔 사원들의 사번 정보를 가져옴
+// const getNDistint = async () => {
+//   let dist = await axios.get(
+//     "https://dutyapi-staging.azurewebsites.net/api/distinct"
+//   );
+//   //console.log(dist.data);
+//   return dist.data;
+// };
 
 var empTotal = [];
 getEmpData().then((emp1) => {
