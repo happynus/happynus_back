@@ -1,0 +1,19 @@
+table {
+    width: 100%;
+    border: 1px solid #444444;
+    background-color: #ffffff;
+  }
+  th, td {
+    border: 1px solid #444444;
+    text-align: center;
+  }
+  
+  body {
+    background-color: #78c1ca;
+  }
+  
+  div {
+    float: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Duty-shiftTable</title>
+
+    <link rel="stylesheet" href="./css/shiftTable.css" />
+  </head>
+  <body>
+    <div>
+      <div>
+        <button type="submit" name="empAdd" formaction="">Night근무배치</button>
+        <button type="submit" name="wanted" formaction="/wanted">희망근무배치</button>
+      </div>
+      <br />
+      <div>
+        <input type="radio" name="chk_info" value="D" /> D
+        <input type="radio" name="chk_info" value="E" /> E
+        <input type="radio" name="chk_info" value="ca" /> 생리휴가
+        <input type="radio" name="chk_info" value="mo" /> 월 차
+        <input type="radio" name="chk_info" value="yo" /> 연 차
+        <input type="radio" name="chk_info" value="ho" /> 공 휴 일
+      </div>
+    </div>
+
+    <p></p>
+    <table bordercolor="black" , id="example-table-1">
+      <thead>
+        <tr>
+          <th>부서명</th>
+          <th>직위</th>
+          <th>사번</th>
+          <th>성명</th>
+          <% for (var i = 1; i < 32; i++) { %>
+          <td><%= i %></td>
+          <% } %>
+        </tr>
+      </thead>
+      <tbody>
+        <% emplist.forEach(function (emplist) { %>
+        <tr>
+          <td><%=emplist.teamNo %></td>
+          <td><%=emplist.position %></td>
+          <td><%=emplist.empNo %></td>
+          <td><%=emplist.empName %></td>
+          <% for (var i = 0; i < 31; i++) { %>
+          <td onclick=""><%=emplist.duty[i] %></td>
+          <% } %>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>
