@@ -13,14 +13,6 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname + "/public")));
 
-// let isDisableKeepAlive = false;
-// app.use(function (req, res, next) {
-//   if (isDisableKeepAlive) {
-//     res.set(`Connection`, `close`);
-//   }
-//   next();
-// });
-
 // 세션 설정
 app.use(
   session({
@@ -39,17 +31,10 @@ app.use(
 );
 
 //Router_zone
-var empManageAPI = require("./routes/empManageAPI.js");
-app.use("/", empManageAPI);
-
-//shiftTable배치를 위한 요소들을 모아논 라우트
-var shiftTableElement = require("./routes/shiftTableElement.js");
-app.use("/", shiftTableElement);
-
-//logInNOut
+//logIn
 var login = require("./routes/logInNOut.js");
 app.use("/", login);
-//logInNOut
+//logOut
 var logout = require("./routes/logInNOut.js");
 app.use("/", logout);
 
@@ -62,7 +47,7 @@ app.use("/", dutyMain);
 var normalMain = require("./routes/mainpage.js");
 app.use("/", normalMain);
 
-//shiftTable을 위한 API
+//shiftTable
 var shiftTable = require("./routes/shiftTable.js");
 app.use("/", shiftTable);
 
@@ -86,14 +71,5 @@ var empManage = require('./routes/mainpage.js');
 app.use('/', empManage);
 
 app.listen(PORT, () => {
-  //process.send(`ready`);
   console.log(`BackServer run : http://localhost:${PORT}/`);
 });
-
-// process.on(`SIGINT`, function () {
-//   isDisableKeepAlive = true;
-//   app.close(function () {
-//     console.log(`server closed`);
-//     process.exit(0);
-//   });
-// });
