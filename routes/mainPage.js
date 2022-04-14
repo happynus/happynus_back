@@ -47,6 +47,16 @@ app.get("/normalMain", function (req, res) {
   });
 });
 
+app.get("/normalMainDutyCheck", function (req, res) {
+  res.render("normalMainDutyCheck", {
+    isLogined: true,
+    empNo: req.session.empNo,
+    empName: req.session.empName,
+    authCode: req.session.authCode,
+    empNo: req.session.empNo,
+  });
+});
+
 app.get("/myDuty", function (req, res) {
   res.render("myDuty", {
     isLogined: true,
@@ -59,6 +69,16 @@ app.get("/myDuty", function (req, res) {
 
 app.get("/teamDutyAdmin", function (req, res) {
   res.render("teamDutyAdmin", {
+    isLogined: true,
+    empNo: req.session.empNo,
+    empName: req.session.empName,
+    authCode: req.session.authCode,
+    empNo: req.session.empNo,
+  });
+});
+
+app.get("/teamDutyCheck", function (req, res) {
+  res.render("teamDutyCheck", {
     isLogined: true,
     empNo: req.session.empNo,
     empName: req.session.empName,
