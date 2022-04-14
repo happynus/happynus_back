@@ -146,4 +146,10 @@ app.post("/api/emp/delete", (req, res) => {
   deletEmp("empNo", "hospital.emp", empNo, res);
 });
 
+
+
+
+
+
+
 module.exports = app;

@@ -213,7 +213,6 @@ app.get("/nightTurn", function (req, res) {
   var count1 = new Array();
 
   connection.query(teamNurse, function (err, result) {
-    //console.log(result);
     for (var data of result) {
       if (data.levelCode == "1000") {
         count4.push(data);
