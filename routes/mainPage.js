@@ -72,12 +72,7 @@ app.get("/dutyMain", function (req, res) {
 });
 
 app.get("/normalMain", function (req, res) {
-  res.render("normalMain", {
-    isLogined: true,
-    empName: req.session.empName,
-    authCode: req.session.authCode,
-    empNo: req.session.empNo,
-  });
+  res.send("일반")
 });
 
 app.get("/myDuty", function (req, res) {
@@ -111,7 +106,6 @@ app.get("/api/emp/offemp", function (req, res){
 
   app.post("/api/emp/coworkers", function(req,res){
     var testEmp= req.body.empNo;
-    var coworkerList = [];
 
     getCoworker(testEmp, function(todayEmp){
       for (i=0; i<todayEmp.length; i++){
@@ -119,12 +113,11 @@ app.get("/api/emp/offemp", function (req, res){
         " and currentduty.empNo=" + todayEmp[i] + " and currentduty.shiftCode!='/' and currentduty.empNo!="+testEmp+
         " and emp.empNo=currentduty.empNo", function(err, result){
           for (var data of result){
-            //console.log(data)
+            console.log("데이터",data)
             return data
           }
         })
       }
-    //  return coworkerList;
     })
   })
 

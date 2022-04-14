@@ -21,7 +21,7 @@ const { cookie } = require("express/lib/response");
 */
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.urlencoded({extended : false}));
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 app.use(cookieParser());
@@ -98,7 +98,6 @@ function availableDate(empNo,callback){
 
 
 
-// 세션값때문에 원티드 여기서
 
     app.post('/wanted', function(req,res){
 
@@ -110,19 +109,17 @@ function availableDate(empNo,callback){
     const statRule = String(req.session.statRule);
 
 if (statRule == '00100' || statRule == '10100'){
-    console.log(statRule, empNo,"상근")
     connection.query("update currentduty set shiftCode='"+empShift+"' where empNo='"+empNo+"' and date='"+empDate+"'")
     if (empShift=='ca' || empShift=='mo' || empShift=='yo'){
         connection.query("insert into wanted (month,date,cautionCode,empNo) values ('"+nextMonth+"', '"+empDate+"', '"+empShift+"', '"+empNo+"')")
     }
 } else{
-    console.log(statRule, "비상근")
    connection.query("insert into currentduty (month,date,teamNo,deptNo,empNo,shiftCode) values ('" +nextMonth+ "'," +"'"+empDate+"',"+ teamNo+","+deptNo+","+empNo+","+"'"+empShift+"')")
    if (empShift=='ca' || empShift=='mo' || empShift=='yo' || empShift=='ho'){
     connection.query("insert into wanted (month,date,cautionCode,empNo) values ('"+nextMonth+"', '"+empDate+"', '"+empShift+"', '"+empNo+"')")
 }
 }
-res.send("배치완료")
+res.send("<script>alert('원티드 신청이 완료되었습니다!');location.href='http://localhost:3000/wanted';</script>");
 });
 
 

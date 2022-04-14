@@ -83,9 +83,6 @@ function availableDate(empNo, callback) {
   });
 }
 
-app.get("/", function (req, res) {
-  res.render("login");
-});
 
 app.post("/", function (req, res) {
   const empNo = req.body.empNo;
