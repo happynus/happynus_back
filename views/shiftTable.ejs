@@ -11,35 +11,29 @@
   </head>
   <script type="text/javascript">
     // 버튼 클릭 이벤트
-    // function movePage() {
-    //   location.href = "/nightTurn";
-    // }
-    function clikcedBtn(){
+    function clikcedBtn() {
       showLoading();
       location.href = "/nightTurn";
-      setTimeout("hideLoading()",30000);
+      setTimeout("hideLoading()", 30000);
     }
-    function showLoading(){
+    function clickedWanted() {
+      showLoading();
+      //location.href = "/Wanted";
+      setTimeout("hideLoading()", 1000);
+    }
+    function showLoading() {
       $("#loading").show();
     }
-    function hideLoading(){
+    function hideLoading() {
       $("#loading").hide();
     }
   </script>
-  <!-- <script>
-    // $(document).ready(function () {
-    //   $("#loading").hide();
-    //   document.btn.onClick(function () {
-    //     $("#loading").show();
-    //     return true;
-    //   });
-    // });
-  </script> -->
-  <div id="loading" style="display: none;">
+  <div id="loading" style="display: none">
     <img src="/img/loading.gif" alt="loading" />
-    <p>Night 근무 배치중입니다</p>
+    <p>근무 배치중입니다</p>
   </div>
-  <input id="btn", type="button" value="Night근무 배치" onClick="clikcedBtn()" />
+  <input type="button" value="Night근무 배치" onClick="clikcedBtn()" />
+  <input type="button" value="Wanted근무 배치" onClick="clickedWanted()" />
   <br />
   <div>
     <input type="radio" name="chk_info" value="D" /> D
@@ -51,15 +45,15 @@
   </div>
   <p></p>
   <body>
-    <table bordercolor="black">
+    <table bordercolor="black" id="example-table-1">
       <thead>
         <tr>
           <th>부서명</th>
           <th>직위</th>
           <th>사번</th>
           <th>성명</th>
-          <% for (var i = 1; i < 32; i++) { %>
-          <td><%= i %></td>
+          <% for (var j = 1; j < 32; j++) { %>
+          <td><%= j %></td>
           <% } %>
         </tr>
       </thead>
@@ -77,5 +71,65 @@
         <% }) %>
       </tbody>
     </table>
+    <div class="col-lg-12" id="ex1_Result1"></div>
+    <div class="col-lg-12" id="ex1_Result2"></div>
+
+    <script>
+      // 테이블의 1,2,3 값 가져오기
+      $("td").click(function () {
+        var colIndex = $(this).parent().children().index($(this)); //이거!
+        var rowIndex = $(this)
+          .parent()
+          .parent()
+          .children()
+          .index($(this).parent());
+        //console.log("Row: " + rowIndex + ", Column: " + colIndex);
+        console.log("현재 날짜는 " + (colIndex - 3));
+      });
+      // 테이블의 Row 클릭시 값 가져오기
+      $("#example-table-1 tr").click(function () {
+        //console.log($(this).find("td:eq(1)").text());
+
+        var str = "";
+        var tdArr = new Array(); // 배열 선언
+
+        // 현재 클릭된 Row(<tr>)
+        var tr = $(this);
+        var td = tr.children();
+
+        // tr.text()는 클릭된 Row 즉 tr에 있는 모든 값을 가져온다.
+        console.log("클릭한 Row의 모든 데이터 : " + tr.text());
+
+        // 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
+        td.each(function (i) {
+          tdArr.push(td.eq(i).text());
+        });
+
+        console.log("배열에 담긴 값 : " + tdArr);
+
+        // td.eq(index)를 통해 값을 가져올 수도 있다.
+        var no = td.eq(0).text();
+        var userid = td.eq(1).text();
+        var name = td.eq(2).text();
+        var email = td.eq(3).text();
+
+        str +=
+          " * 클릭된 Row의 td값 = 부서번호 : <font color='red'>" +
+          no +
+          "</font>" +
+          ", 직급 : <font color='red'>" +
+          userid +
+          "</font>" +
+          ", 사번 : <font color='red'>" +
+          name +
+          "</font>" +
+          ", 이름 : <font color='red'>" +
+          email +
+          "</font>";
+
+        $("#ex1_Result1").html(" * 클릭한 Row의 모든 데이터 = " + tr.text());
+        $("#ex1_Result2").html(str);
+      });
+    </script>
   </body>
 </html>
