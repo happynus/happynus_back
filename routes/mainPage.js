@@ -57,6 +57,16 @@ app.get("/myDuty", function (req, res) {
   });
 });
 
+app.get("/teamDutyAdmin", function (req, res) {
+  res.render("teamDutyAdmin", {
+    isLogined: true,
+    empNo: req.session.empNo,
+    empName: req.session.empName,
+    authCode: req.session.authCode,
+    empNo: req.session.empNo,
+  });
+});
+
 // app.get('/superMain',function(req,res){
 //   console.log("메인",req.session.empNo)
 //   //res.send("슈퍼관리자")
