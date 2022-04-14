@@ -7,16 +7,39 @@
     <title>Duty-shiftTable</title>
 
     <link rel="stylesheet" href="./css/shiftTable.css" />
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   </head>
   <script type="text/javascript">
     // 버튼 클릭 이벤트
-    function movePage() {
+    // function movePage() {
+    //   location.href = "/nightTurn";
+    // }
+    function clikcedBtn(){
+      showLoading();
       location.href = "/nightTurn";
+      setTimeout("hideLoading()",30000);
+    }
+    function showLoading(){
+      $("#loading").show();
+    }
+    function hideLoading(){
+      $("#loading").hide();
     }
   </script>
-  <form>
-    <input type="button" value="Night근무 배치" onClick="movePage()" />
-  </form>
+  <!-- <script>
+    // $(document).ready(function () {
+    //   $("#loading").hide();
+    //   document.btn.onClick(function () {
+    //     $("#loading").show();
+    //     return true;
+    //   });
+    // });
+  </script> -->
+  <div id="loading" style="display: none;">
+    <img src="/img/loading.gif" alt="loading" />
+    <p>Night 근무 배치중입니다</p>
+  </div>
+  <input id="btn", type="button" value="Night근무 배치" onClick="clikcedBtn()" />
   <br />
   <div>
     <input type="radio" name="chk_info" value="D" /> D
