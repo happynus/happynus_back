@@ -47,6 +47,9 @@ app.use("/", superMain);
 var dutyMain = require("./routes/mainpage.js");
 app.use("/", dutyMain);
 
+var teamDutyAdmin = require("./routes/mainpage.js");
+app.use("/", teamDutyAdmin);
+
 var normalMain = require("./routes/mainpage.js");
 app.use("/", normalMain);
 
@@ -57,6 +60,9 @@ app.use("/", shiftTable);
 //nightTurnAPI
 var nightTurn = require("./routes/nightTurn.js");
 app.use("/", nightTurn);
+
+var wanted = require("./routes/wanted.js");
+app.use("/", wanted);
 
 var finalAssign = require('./routes/finalAssign.js');
 app.use('/', finalAssign);
