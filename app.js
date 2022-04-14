@@ -47,16 +47,32 @@ app.use("/", superMain);
 var dutyMain = require("./routes/mainpage.js");
 app.use("/", dutyMain);
 
+var teamDutyAdmin = require("./routes/mainpage.js");
+app.use("/", teamDutyAdmin);
+
+var teamDutyCheck = require("./routes/mainpage.js");
+app.use("/", teamDutyCheck);
+
 var normalMain = require("./routes/mainpage.js");
 app.use("/", normalMain);
+
+var normalMainDutyCheck = require("./routes/mainpage.js");
+app.use("/", normalMainDutyCheck);
 
 //shiftTable
 var shiftTable = require("./routes/shiftTable.js");
 app.use("/", shiftTable);
 
+//teamDutyCheck를 위한 테이블
+var shiftTableCk = require("./routes/shiftTableCk.js");
+app.use("/", shiftTableCk);
+
 //nightTurnAPI
 var nightTurn = require("./routes/nightTurn.js");
 app.use("/", nightTurn);
+
+var wanted = require("./routes/wanted.js");
+app.use("/", wanted);
 
 var finalAssign = require('./routes/finalAssign.js');
 app.use('/', finalAssign);

@@ -62,17 +62,18 @@ app.get("/superMain", function (req, res) {
   res.send("슈퍼관리자");
 });
 
-app.get("/dutyMain", function (req, res) {
-  res.render("dutyMain", {
+app.get("/normalMain", function (req, res) {
+  res.send("일반")
+});
+
+app.get("/normalMainDutyCheck", function (req, res) {
+  res.render("normalMainDutyCheck", {
     isLogined: true,
+    empNo: req.session.empNo,
     empName: req.session.empName,
     authCode: req.session.authCode,
     empNo: req.session.empNo,
   });
-});
-
-app.get("/normalMain", function (req, res) {
-  res.send("일반")
 });
 
 app.get("/myDuty", function (req, res) {
@@ -84,6 +85,38 @@ app.get("/myDuty", function (req, res) {
     empNo: req.session.empNo,
   });
 });
+
+
+app.get("/teamDutyAdmin", function (req, res) {
+  res.render("teamDutyAdmin", {
+    isLogined: true,
+    empNo: req.session.empNo,
+    empName: req.session.empName,
+    authCode: req.session.authCode,
+    empNo: req.session.empNo,
+  });
+});
+
+app.get("/teamDutyCheck", function (req, res) {
+  res.render("teamDutyCheck", {
+    isLogined: true,
+    empNo: req.session.empNo,
+    empName: req.session.empName,
+    authCode: req.session.authCode,
+    empNo: req.session.empNo,
+  });
+});
+
+// app.get('/superMain',function(req,res){
+//   console.log("메인",req.session.empNo)
+//   //res.send("슈퍼관리자")
+//     res.render('superMain',{
+//       isLogined: true,
+//       empName: req.session.empName,
+//       authCode: req.session.authCode,
+//       empNo: req.session.empNo
+//     });
+// })
 
 
 
