@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Duty-shiftTable</title>
+
+    <link rel="stylesheet" href="./css/shiftTable.css" />
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  </head>
+  <p></p>
+  <body>
+    <table bordercolor="black" id="example-table-1">
+      <thead>
+        <tr>
+          <th>부서명</th>
+          <th>직위</th>
+          <th>사번</th>
+          <th>성명</th>
+          <% for (var j = 1; j < 32; j++) { %>
+          <td><%= j %></td>
+          <% } %>
+        </tr>
+      </thead>
+      <tbody>
+        <% emplist.forEach(function (emplist) { %>
+        <tr>
+          <td><%=emplist.teamNo %></td>
+          <td><%=emplist.position %></td>
+          <td><%=emplist.empNo %></td>
+          <td><%=emplist.empName %></td>
+          <% for (var i = 0; i < 31; i++) { %>
+          <td onclick=""><%=emplist.duty[i] %></td>
+          <% } %>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>

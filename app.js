@@ -63,6 +63,10 @@ app.use("/", normalMainDutyCheck);
 var shiftTable = require("./routes/shiftTable.js");
 app.use("/", shiftTable);
 
+//myDutyTable 위한 테이블
+var myDutyTable = require("./routes/myDutyTable.js");
+app.use("/", myDutyTable);
+
 //teamDutyCheck를 위한 테이블
 var shiftTableCk = require("./routes/shiftTableCk.js");
 app.use("/", shiftTableCk);
