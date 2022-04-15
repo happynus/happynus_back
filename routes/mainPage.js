@@ -8,7 +8,7 @@ var mysql = require("mysql");
 const request = require("request");
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
-var MySQLStore = require("express-mysql-session")(session);
+var FileStore = require("session-file-store")(session);
 const path = require("path");
 const { connection } = require("../config/dao.js");
 const { cookie } = require("express/lib/response");
@@ -39,20 +39,40 @@ if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
   lastDate[1] = 29;
 }
 
-//동일시프트 근무자 출력 위한 함수
-  var todayDate = today.getDate()
-  
-  function getCoworker (empNo, callback){
-    var todayEmp = [];
-    var myCoworkers = "select empNo from currentduty where date="+ todayDate +" and shiftCode in (select shiftCode from currentduty where empno=?)"
+//동일시프트 근무자 출력 위한 함수    
 
-    connection.query(myCoworkers, empNo, function(err,result){
+var todayEmp = [];
+  var todayDate = today.getDate()
+  function getCoworker (empNo, callback){
+
+  var myCoworkers = "select empNo from currentduty where date="+ todayDate +" and shiftCode in (select shiftCode from currentduty where empno='" +empNo + "' and date=" +todayDate+")"
+
+    connection.query(myCoworkers, function(err,result){
       for (var data of result){
         todayEmp.push(data.empNo)
       }
       return callback(todayEmp);
     })
   }
+
+
+  //배정된 나이트 날짜 가져오기
+var assignedDates = [];
+function savedDates(empNo, callback) {
+  connection.query(
+    "select date from currentduty where empNo=" + empNo,
+    function (err, result) {
+      for (var data of result) {
+        assignedDates.push(data.date);
+      }
+      return callback(assignedDates);
+    }
+  );
+}
+
+  getCoworker(205986, function(todayEmp){
+    console.log("여기",todayEmp)
+  })
 
 
 
@@ -107,17 +127,6 @@ app.get("/teamDutyCheck", function (req, res) {
   });
 });
 
-// app.get('/superMain',function(req,res){
-//   console.log("메인",req.session.empNo)
-//   //res.send("슈퍼관리자")
-//     res.render('superMain',{
-//       isLogined: true,
-//       empName: req.session.empName,
-//       authCode: req.session.authCode,
-//       empNo: req.session.empNo
-//     });
-// })
-
 
 
 //당일 오프자 출력
@@ -136,18 +145,34 @@ app.get("/api/emp/offemp", function (req, res){
   });
 
 
+  app.post("/api/emp/mydutyToday", function(req,res){
+    var userEmp = req.body.empNo;
+    var myDate = today.getDate();
+    var getMyduty = "select shiftCode from currentduty where empNo='"+userEmp+"' and date='"+myDate+"'"
 
-  app.post("/api/emp/coworkers", function(req,res){
-    var testEmp= req.body.empNo;
+    connection.query(getMyduty, function(err, result){
+      console.log(result)
+      return result;
+    })
+  })
 
-    getCoworker(testEmp, function(todayEmp){
+
+  app.get("/api/emp/coworkers", function(req,res){
+    const userEmp = req.session.empNo;
+    var coworkerList = []
+    var myDate = today.getDate();
+    console.log(userEmp, "사번")
+
+    getCoworker(userEmp , function(todayEmp){
       for (i=0; i<todayEmp.length; i++){
-        connection.query("select currentduty.empNo, emp.empName from currentduty, emp where currentduty.date="+todayDate+
-        " and currentduty.empNo=" + todayEmp[i] + " and currentduty.shiftCode!='/' and currentduty.empNo!="+testEmp+
+        connection.query("select currentduty.empNo, emp.empName from currentduty, emp where currentduty.date="+myDate+
+        " and currentduty.empNo=" + todayEmp[i] + " and currentduty.shiftCode!='/' and currentduty.empNo!="+userEmp +
         " and emp.empNo=currentduty.empNo", function(err, result){
+
           for (var data of result){
-            console.log("데이터",data)
-            return data
+            console.log(data.empNo, data.empName)
+            //coworkerList.push(data.empNo, data.empName)
+            return coworkerList;
           }
         })
       }
