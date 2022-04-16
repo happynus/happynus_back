@@ -19,7 +19,7 @@ app.get("/shiftTable", function (req, res) {
   getConnection((conn) => {
     //console.log("conn 시작");
     var empNwork =
-      "select currentduty.empNo, currentduty.month, currentduty.date, currentduty.teamNo, currentduty.deptNo, currentduty.shiftCode, emp.position, emp.empname from currentduty, emp where emp.empno=currentduty.empno;";
+      "select currentduty.empNo, currentduty.month, currentduty.date, currentduty.teamNo, currentduty.deptNo, currentduty.shiftCode, emp.position, emp.empname from currentduty, emp where emp.empno=currentduty.empno order by teamNo, empNo;";
     conn.query(empNwork, function (err, result) {
       if (err) {
         console.log("실패");
@@ -72,7 +72,8 @@ app.get("/shiftTable", function (req, res) {
           empTotal.push(shiftN);
         }
         //console.log(empTotal);
-        res.render("shiftTable", { emplist: empTotal });
+        //res.render("shiftTable", { emplist: empTotal });
+        res.send(empTotal);
       }
     });
     conn.release();
