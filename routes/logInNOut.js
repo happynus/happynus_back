@@ -111,7 +111,7 @@ app.post("/", function (req, res) {
               req.session.isLogined = true;
               req.session.save();
               console.log(req.session);
-              res.redirect("http://localhost:3000/superadm");
+              res.redirect("http://localhost:3000/superMain");
             } else if (rows[0].authCode == "010") {
               req.session.empNo = rows[0].empNo;
               req.session.passwd = rows[0].passwd;
@@ -123,7 +123,7 @@ app.post("/", function (req, res) {
               req.session.isLogined = true;
               req.session.save();
               console.log(req.session);
-              res.redirect("http://localhost:3000/dutyadm");
+              res.redirect("http://localhost:3000/dutyMain");
             } else {
               req.session.empNo = rows[0].empNo;
               req.session.passwd = rows[0].passwd;
@@ -134,7 +134,7 @@ app.post("/", function (req, res) {
               req.session.statRule = rows[0].statRule;
               req.session.isLogined = true;
               req.session.save(function () {
-                res.redirect("http://localhost:3000/normal");
+                res.redirect("http://localhost:3000/normalMain");
               });
               console.log(req.session);
             }
