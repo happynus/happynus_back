@@ -19,7 +19,9 @@ app.get("/shiftTable", function (req, res) {
   getConnection((conn) => {
     //console.log("conn 시작");
     var empNwork =
-      "select currentduty.empNo, currentduty.month, currentduty.date, currentduty.teamNo, currentduty.deptNo, currentduty.shiftCode, emp.position, emp.empname from currentduty, emp where emp.empno=currentduty.empno order by teamNo, empNo;";
+    "select currentduty.empNo, currentduty.month, currentduty.date, team.teamName, currentduty.shiftCode, emp.position, emp.empName from currentduty, emp, team where currentduty.teamNo="
+    +  req.session.teamNo +
+    "and emp.empno=currentduty.empno and team.teamNo=currentduty.teamNo order by currentduty.empno;"
     conn.query(empNwork, function (err, result) {
       if (err) {
         console.log("실패");

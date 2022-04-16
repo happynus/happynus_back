@@ -70,21 +70,11 @@ function savedDates(empNo, callback) {
   );
 }
 
-  getCoworker(205986, function(todayEmp){
-    console.log("여기",todayEmp)
-  })
 
 
 
 ////////////////////////////////////////////////////
 
-app.get("/superMain", function (req, res) {
-  res.send("슈퍼관리자");
-});
-
-app.get("/normalMain", function (req, res) {
-  res.send("일반")
-});
 
 app.get("/normalMainDutyCheck", function (req, res) {
   res.render("normalMainDutyCheck", {
@@ -95,6 +85,7 @@ app.get("/normalMainDutyCheck", function (req, res) {
     empNo: req.session.empNo,
   });
 });
+
 
 app.get("/myDuty", function (req, res) {
   res.render("myDuty", {
