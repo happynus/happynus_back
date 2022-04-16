@@ -63,13 +63,13 @@ app.use("/", normalMainDutyCheck);
 var shiftTable = require("./routes/shiftTable.js");
 app.use("/", shiftTable);
 
-//myDutyTable 위한 테이블
-var myDutyTable = require("./routes/myDutyTable.js");
-app.use("/", myDutyTable);
-
-//teamDutyCheck를 위한 테이블
+//시프트 테이블에서 버튼 없앤 API
 var shiftTableCk = require("./routes/shiftTableCk.js");
 app.use("/", shiftTableCk);
+
+//듀티 한줄만 출력하기위한 위한 테이블
+var myDutyTable = require("./routes/myDutyTable.js");
+app.use("/", myDutyTable);
 
 //nightTurnAPI
 var nightTurn = require("./routes/nightTurn.js");

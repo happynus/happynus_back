@@ -38,8 +38,7 @@ app.get("/myDutyTable", function (req, res) {
   getConnection((conn) => {
     //console.log("conn 시작");
     var empNwork =
-      "select currentduty.empNo, currentduty.month, currentduty.date, currentduty.teamNo, currentduty.deptNo, currentduty.shiftCode, emp.position, emp.empname from currentduty, emp where emp.empno=currentduty.empno and currentduty.empno=" +
-      String(req.session.empNo);
+      "select currentduty.empNo, currentduty.month, currentduty.date, team.teamName, currentduty.deptNo, currentduty.shiftCode, emp.position, emp.empname from currentduty, emp, team where emp.empno=currentduty.empno and currentduty.empno='225115' and team.teamName='간호2팀';";
     //var empNwork = "select * from hospital.currentduty where empNo = 225115;"
     conn.query(empNwork, function (err, result) {
       if (err) {
@@ -48,7 +47,7 @@ app.get("/myDutyTable", function (req, res) {
         const empList = new Array();
         for (var i = 0; i < result.length; i++) {
           empList.push({
-            teamNo: result[i].teamNo,
+            teamName: result[i].teamName,
             position: result[i].position,
             empNo: result[i].empNo,
             empName: result[i].empname,
@@ -110,7 +109,7 @@ app.get("/myDutyTable", function (req, res) {
             }
           }
           let shiftN = {
-            teamNo: removeDup[j].teamNo,
+            teamName: removeDup[j].teamName,
             position: removeDup[j].position,
             empNo: removeDup[j].empNo,
             empName: removeDup[j].empName,
@@ -120,7 +119,8 @@ app.get("/myDutyTable", function (req, res) {
           empTotal.push(shiftN);
         }
         //console.log(empTotal);
-        res.render("myDutyTable", { emplist: empTotal });
+        //res.render("myDutyTable", { emplist: empTotal });
+        res.send(empTotal);
       }
     });
     conn.release();
