@@ -451,7 +451,7 @@ app.get("/nightTurn", function (req, res) {
     //res.send("기초시프트 배치완료");
   });
   setTimeout(function(){
-    res.redirect('http://localhost:3000/ShiftTable');
+    res.redirect('https://dutyweb.azurewebsites.net/shiftTable');
     //res.redirect('https://dutyapi.azurewebsites.net/shiftTable');
   }, 30000);
   //res.send("기초시프트 배치완료");
