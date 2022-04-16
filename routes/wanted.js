@@ -100,8 +100,8 @@ function availableDate(empNo, callback) {
 
 
 app.post("/wanted", function (req, res) {
-  const empDate = String(req.body.date);
-  const empShift = req.body.shiftCode;
+  const empDate = String(req.body.wantedDate).substring(8);
+  const empShift = req.body.wantedShift;
   const empNo = String(req.session.empNo);
   const teamNo = req.session.teamNo;
   const deptNo = req.session.deptNo;
