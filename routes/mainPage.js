@@ -70,55 +70,26 @@ function savedDates(empNo, callback) {
   );
 }
 
-  getCoworker(205986, function(todayEmp){
-    console.log("여기",todayEmp)
-  })
+  // getCoworker(205986, function(todayEmp){
+  //   console.log("여기",todayEmp)
+  // })
 
 
 
 ////////////////////////////////////////////////////
 
-app.get("/superMain", function (req, res) {
-  res.send("슈퍼관리자");
-});
-
-app.get("/normalMain", function (req, res) {
-  res.send("일반")
-});
-
-app.get("/normalMainDutyCheck", function (req, res) {
-  res.render("normalMainDutyCheck", {
-    isLogined: true,
-    empNo: req.session.empNo,
-    empName: req.session.empName,
-    authCode: req.session.authCode,
-    empNo: req.session.empNo,
-  });
-});
+// app.get("/normalMainDutyCheck", function (req, res) {
+//   res.render("normalMainDutyCheck", {
+//     isLogined: true,
+//     empNo: req.session.empNo,
+//     empName: req.session.empName,
+//     authCode: req.session.authCode,
+//     empNo: req.session.empNo,
+//   });
+// });
 
 app.get("/myDuty", function (req, res) {
   res.render("myDuty", {
-    isLogined: true,
-    empNo: req.session.empNo,
-    empName: req.session.empName,
-    authCode: req.session.authCode,
-    empNo: req.session.empNo,
-  });
-});
-
-
-app.get("/teamDutyAdmin", function (req, res) {
-  res.render("teamDutyAdmin", {
-    isLogined: true,
-    empNo: req.session.empNo,
-    empName: req.session.empName,
-    authCode: req.session.authCode,
-    empNo: req.session.empNo,
-  });
-});
-
-app.get("/teamDutyCheck", function (req, res) {
-  res.render("teamDutyCheck", {
     isLogined: true,
     empNo: req.session.empNo,
     empName: req.session.empName,

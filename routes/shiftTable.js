@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+var cookieParser = require("cookie-parser");
 const { connection, getConnection } = require("../config/dao.js");
 
 /**
@@ -14,20 +15,29 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// cookie-parser 설정
+app.use(cookieParser());
 
 app.get("/shiftTable", function (req, res) {
   getConnection((conn) => {
-    //console.log("conn 시작");
+    var sessionTeamno = req.session.teamNo;
     var empNwork =
-      "select currentduty.empNo, currentduty.month, currentduty.date, currentduty.teamNo, currentduty.deptNo, currentduty.shiftCode, emp.position, emp.empname from currentduty, emp where emp.empno=currentduty.empno order by teamNo, empNo;";
+    "select currentduty.empNo, currentduty.month, currentduty.date, team.teamName, currentduty.shiftCode, emp.position, emp.empname from currentduty, emp, team where currentduty.teamNo="
+    +  sessionTeamno  +
+    "and emp.empno=currentduty.empno and team.teamNo=currentduty.teamNo order by currentduty.empno;"
+  
     conn.query(empNwork, function (err, result) {
+      console.log("세션값",sessionTeamno)
+      console.log("시프트테이블",result)
       if (err) {
         console.log("실패");
       } else {
         const empList = new Array();
         for (var i = 0; i < result.length; i++) {
           empList.push({
-            teamNo: result[i].teamNo,
+            teamName: result[i].teamName,
             position: result[i].position,
             empNo: result[i].empNo,
             empName: result[i].empname,
@@ -62,23 +72,25 @@ app.get("/shiftTable", function (req, res) {
             }
           }
           let shiftN = {
-            teamNo: removeDup[j].teamNo,
+            teamName: removeDup[j].teamName,
             position: removeDup[j].position,
             empNo: removeDup[j].empNo,
             empName: removeDup[j].empName,
             duty: duty,
           };
-          //console.log(duty);
           empTotal.push(shiftN);
         }
         //console.log(empTotal);
         //res.render("shiftTable", { emplist: empTotal });
-        res.send(empTotal);
+      //  res.send(empTotal);
       }
     });
     conn.release();
-    //console.log("conn 마감");
   });
 });
+
+
+
+
 
 module.exports = app;

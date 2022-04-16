@@ -80,4 +80,14 @@ app.get("/shiftTableCk", function (req, res) {
   });
 });
 
+// app.get("/teamDutyCheck", function (req, res) {
+//   res.render("shiftTableCk", {
+//     isLogined: true,
+//     empNo: req.session.empNo,
+//     empName: req.session.empName,
+//     authCode: req.session.authCode,
+//     empNo: req.session.empNo,
+//   });
+// });
+
 module.exports = app;

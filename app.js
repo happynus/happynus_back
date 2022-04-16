@@ -47,12 +47,6 @@ app.use("/", superMain);
 var dutyMain = require("./routes/mainpage.js");
 app.use("/", dutyMain);
 
-var teamDutyAdmin = require("./routes/mainpage.js");
-app.use("/", teamDutyAdmin);
-
-var teamDutyCheck = require("./routes/mainpage.js");
-app.use("/", teamDutyCheck);
-
 var normalMain = require("./routes/mainpage.js");
 app.use("/", normalMain);
 
@@ -69,6 +63,9 @@ app.use("/", myDutyTable);
 
 //teamDutyCheck를 위한 테이블
 var shiftTableCk = require("./routes/shiftTableCk.js");
+app.use("/", shiftTableCk);
+
+var teamDutyCk = require("./routes/shiftTableCk.js");
 app.use("/", shiftTableCk);
 
 //nightTurnAPI
