@@ -41,23 +41,13 @@ app.use("/", login);
 var logout = require("./routes/logInNOut.js");
 app.use("/", logout);
 
-var superMain = require("./routes/mainpage.js");
-app.use("/", superMain);
+// 해피너스의 여러가지 페이지를 관리하는 API
+var mainpage = require("./routes/mainpage.js");
+app.use("/", mainpage);
 
-var dutyMain = require("./routes/mainpage.js");
-app.use("/", dutyMain);
+// var empManage = require('./routes/mainpage.js');
+// app.use('/', empManage);
 
-var teamDutyAdmin = require("./routes/mainpage.js");
-app.use("/", teamDutyAdmin);
-
-var teamDutyCheck = require("./routes/mainpage.js");
-app.use("/", teamDutyCheck);
-
-var normalMain = require("./routes/mainpage.js");
-app.use("/", normalMain);
-
-var normalMainDutyCheck = require("./routes/mainpage.js");
-app.use("/", normalMainDutyCheck);
 
 //shiftTable
 var shiftTable = require("./routes/shiftTable.js");
@@ -71,6 +61,8 @@ app.use("/", shiftTableCk);
 var myDutyTable = require("./routes/myDutyTable.js");
 app.use("/", myDutyTable);
 
+
+//룰 API 모음
 //nightTurnAPI
 var nightTurn = require("./routes/nightTurn.js");
 app.use("/", nightTurn);
@@ -87,11 +79,6 @@ app.use('/', level);
 var wanted = require('./routes/wanted.js');
 app.use('/', wanted);
 
-var myDuty = require('./routes/mainpage.js');
-app.use('/', myDuty);
-
-var empManage = require('./routes/mainpage.js');
-app.use('/', empManage);
 
 app.listen(PORT, () => {
   console.log(`BackServer run : http://localhost:${PORT}/`);

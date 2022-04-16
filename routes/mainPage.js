@@ -73,8 +73,8 @@ function savedDates(empNo, callback) {
 
 
 
-////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////
 
 app.get("/normalMainDutyCheck", function (req, res) {
   res.render("normalMainDutyCheck", {
@@ -87,37 +87,21 @@ app.get("/normalMainDutyCheck", function (req, res) {
 });
 
 
-app.get("/myDuty", function (req, res) {
-  res.render("myDuty", {
-    isLogined: true,
-    empNo: req.session.empNo,
-    empName: req.session.empName,
-    authCode: req.session.authCode,
-    empNo: req.session.empNo,
-  });
-});
-
-
 app.get("/teamDutyAdmin", function (req, res) {
-  res.render("teamDutyAdmin", {
-    isLogined: true,
-    empNo: req.session.empNo,
-    empName: req.session.empName,
-    authCode: req.session.authCode,
-    empNo: req.session.empNo,
-  });
+  res.send("듀티 배치 버튼 있는 shiftTable 출력")
 });
 
 app.get("/teamDutyCheck", function (req, res) {
-  res.render("teamDutyCheck", {
-    isLogined: true,
-    empNo: req.session.empNo,
-    empName: req.session.empName,
-    authCode: req.session.authCode,
-    empNo: req.session.empNo,
-  });
+  res.send("듀티 배치 버튼 없는 shiftTable 출력")
 });
 
+app.get("/normalMainDutyCheck", function (req, res) {
+  res.send("듀티 배치 버튼 없는 shiftTable 출력")
+});
+
+app.get("/myDuty", function (req, res) {
+  res.send("내 shiftTable 만 출력")
+});
 
 
 //당일 오프자 출력
