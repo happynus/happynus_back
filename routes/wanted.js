@@ -149,7 +149,7 @@ app.post("/wanted", function (req, res) {
       );
     }
   }
-  res.send("<script>alert('원티드 신청이 완료되었습니다!');location.href='http://localhost:3000/wanted';</script>");
+  res.send("<script>alert('원티드 신청이 완료되었습니다!');location.href='https://dutyweb.azurewebsites.net/wanted';</script>");
 });
 
 

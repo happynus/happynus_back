@@ -111,7 +111,7 @@ app.post("/", function (req, res) {
               req.session.isLogined = true;
               req.session.save();
               console.log(req.session);
-              res.redirect("http://localhost:3000/superMain");
+              res.redirect("https://dutyweb.azurewebsites.net/superMain");
             } else if (rows[0].authCode == "010") {
               req.session.empNo = rows[0].empNo;
               req.session.passwd = rows[0].passwd;
@@ -123,7 +123,7 @@ app.post("/", function (req, res) {
               req.session.isLogined = true;
               req.session.save();
               console.log(req.session);
-              res.redirect("http://localhost:3000/dutyMain");
+              res.redirect("https://dutyweb.azurewebsites.net/dutyMain");
             } else {
               req.session.empNo = rows[0].empNo;
               req.session.passwd = rows[0].passwd;
@@ -134,7 +134,7 @@ app.post("/", function (req, res) {
               req.session.statRule = rows[0].statRule;
               req.session.isLogined = true;
               req.session.save(function () {
-                res.redirect("http://localhost:3000/normalMain");
+                res.redirect("https://dutyweb.azurewebsites.net/normalMain");
               });
               console.log(req.session);
             }
@@ -143,7 +143,7 @@ app.post("/", function (req, res) {
         }
       } else {
         res.send(
-          "<script>alert('사용자 정보가 일치하지 않습니다');location.href='http://localhost:3000/login';</script>"
+          "<script>alert('사용자 정보가 일치하지 않습니다');location.href='https://dutyweb.azurewebsites.net/login';</script>"
         );
         console.log("로그인 실패");
       }
