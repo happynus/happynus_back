@@ -4,10 +4,10 @@ const app = express();
 const { connection, getConnection } = require("../config/dao.js");
 
 /**
- * 파일 명 : shiftTable.js
+ * 파일 명 : shiftTableCk.js
  * @author : 주민지
  * @date : 2022-04-12
- * @description : shiftTable배치.
+ * @description : 버튼 없는 shiftTable배치.
  */
 
 app.use(bodyParser.json());
@@ -17,19 +17,23 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/shiftTableCk", function (req, res) {
   getConnection((conn) => {
-    var empNwork = "select currentduty.empNo, currentduty.month, currentduty.date, currentduty.teamNo, currentduty.deptNo, currentduty.shiftCode, emp.position, emp.empname from currentduty, emp where emp.empno=currentduty.empno order by teamNo, empNo;";
+    //console.log("conn 시작");
+    var empNwork =
+      "select currentduty.empNo, currentduty.month, currentduty.date, team.teamName, currentduty.shiftCode, emp.position, emp.empName from currentduty, emp, team where emp.empno=currentduty.empno and team.teamNo=currentduty.teamNo order by team.teamNo, currentduty.empNo;";
     conn.query(empNwork, function (err, result) {
-      console.log("시프트테이블체크",req.session.teamNo)
+      console.log(empNwork);
+      console.log(result);
       if (err) {
         console.log("실패");
       } else {
         const empList = new Array();
         for (var i = 0; i < result.length; i++) {
           empList.push({
+            teamNo: result[i].teamNo,
             teamName: result[i].teamName,
             position: result[i].position,
             empNo: result[i].empNo,
-            empName: result[i].empname,
+            empName: result[i].empName,
           });
         }
         function removeDuplicates(data, key) {
@@ -37,7 +41,7 @@ app.get("/shiftTableCk", function (req, res) {
             ...new Map(data.map(item => [key(item), item])).values()
           ]
         };
-        var removeDup = removeDuplicates(empList, item => item.empNo) 
+        var removeDup = removeDuplicates(empList, item => item.empNo)
         //console.log(removeDup);
 
         var empTotal = [];
@@ -60,6 +64,7 @@ app.get("/shiftTableCk", function (req, res) {
             }
           }
           let shiftN = {
+            teamNo: removeDup[j].teamNo,
             teamName: removeDup[j].teamName,
             position: removeDup[j].position,
             empNo: removeDup[j].empNo,
@@ -70,7 +75,7 @@ app.get("/shiftTableCk", function (req, res) {
           empTotal.push(shiftN);
         }
         //console.log(empTotal);
-        //res.render("shiftTableCk", { emplist: empTotal });
+        //res.render("shiftTable", { emplist: empTotal });
         res.send(empTotal);
       }
     });
