@@ -4,7 +4,7 @@
     "circular-json": "^0.5.9",
     "cookie-parser": "1.4.6",
     "ejs": "^3.1.6",
-    "express": "^4.17.3",
+    "express": "4.17.3",
     "express-mysql-session": "^2.1.7",
     "express-session": "^1.17.2",
     "holidays-kr": "^1.0.3",
