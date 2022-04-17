@@ -19,9 +19,9 @@ app.get("/shiftTable", function (req, res) {
   getConnection((conn) => {
     //console.log("conn 시작");
     var empNwork =
-    "select currentduty.empNo, currentduty.month, currentduty.date, team.teamName, currentduty.shiftCode, emp.position, emp.empName from currentduty, emp, team where currentduty.teamNo="
-    +  req.session.teamNo +
-    "and emp.empno=currentduty.empno and team.teamNo=currentduty.teamNo order by currentduty.empno;"
+    "select currentduty.empNo, currentduty.month, currentduty.date, team.teamName, currentduty.shiftCode, emp.position, emp.empName from currentduty, emp, team where currentduty.teamNo=" +
+    req.session.teamNo +
+    " and emp.empno=currentduty.empno and team.teamNo=currentduty.teamNo order by currentduty.empno;";
     conn.query(empNwork, function (err, result) {
       if (err) {
         console.log("실패");
@@ -29,7 +29,7 @@ app.get("/shiftTable", function (req, res) {
         const empList = new Array();
         for (var i = 0; i < result.length; i++) {
           empList.push({
-            teamNo: result[i].teamNo,
+            teamName: result[i].teamName,
             position: result[i].position,
             empNo: result[i].empNo,
             empName: result[i].empname,
@@ -64,7 +64,7 @@ app.get("/shiftTable", function (req, res) {
             }
           }
           let shiftN = {
-            teamNo: removeDup[j].teamNo,
+            teamName: removeDup[j].teamName,
             position: removeDup[j].position,
             empNo: removeDup[j].empNo,
             empName: removeDup[j].empName,

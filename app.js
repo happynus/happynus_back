@@ -76,9 +76,6 @@ app.use('/', finalAssign);
 var level = require('./routes/level.js');
 app.use('/', level);
 
-var wanted = require('./routes/wanted.js');
-app.use('/', wanted);
-
 
 app.listen(PORT, () => {
   console.log(`BackServer run : http://localhost:${PORT}/`);

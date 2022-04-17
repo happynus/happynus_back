@@ -1,16 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-var fs = require("fs");
-var mysql = require("mysql");
 var cookieParser = require("cookie-parser");
-const router = express.Router();
-var session = require("express-session");
-var mongoose = require("mongoose");
-var FileStore = require("session-file-store")(session);
-const path = require("path");
 const { connection } = require("../config/dao.js");
-const { cookie } = require("express/lib/response");
 
 /**
  * 파일 명 : login.js
@@ -29,19 +21,7 @@ app.use(cookieParser());
 // cookie-parser 설정
 app.use(cookieParser());
 
-// 세션 설정
-app.use(
-  session({
-    key: "hnduty",
-    secret: "nextlevel",
-    resave: false,
-    saveUninitialized: false,
-    store: new FileStore(),
-    cookie: {
-      maxAge: 1000 * 60 * 60, // 쿠키 유효기간 1시간
-    },
-  })
-);
+
 
 //날짜 정의
 let today = new Date();
@@ -107,6 +87,7 @@ app.post("/wanted", function (req, res) {
   const deptNo = req.session.deptNo;
   const statRule = String(req.session.statRule);
 
+  console.log("사번:",empNo, "팀:", teamNo, "부서:", deptNo, "상태코드:",statRule)
 
   if (statRule == "00100" || statRule == "10100") {
     connection.query(
@@ -169,6 +150,21 @@ app.post("/wanted", function (req, res) {
     }
   }
   res.send("<script>alert('원티드 신청이 완료되었습니다!');location.href='http://localhost:3000/wanted';</script>");
+});
+
+
+app.get('/avaDate', function (req, res) {
+  var avaDate = []
+  const empNo = String(req.session.empNo);
+  console.log("바깥콘솔사번:", empNo)
+
+  availableDate(empNo, function (thisMonthDates) {
+    for (i = 0; i < thisMonthDates.length; i++) {
+      avaDate.push(thisMonthDates[i]);
+    }
+    console.log("밖",avaDate);
+    return avaDate;
+  });
 });
 
 module.exports = app;

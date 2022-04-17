@@ -17,23 +17,21 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/shiftTableCk", function (req, res) {
   getConnection((conn) => {
-    //console.log("conn 시작");
-    var empNwork =
-      "select currentduty.empNo, currentduty.month, currentduty.date, currentduty.teamNo, currentduty.deptNo, currentduty.shiftCode, emp.position, emp.empname from currentduty, emp where emp.empno=currentduty.empno order by teamNo, empNo;";
+    var empNwork = "select currentduty.empNo, currentduty.month, currentduty.date, currentduty.teamNo, currentduty.deptNo, currentduty.shiftCode, emp.position, emp.empname from currentduty, emp where emp.empno=currentduty.empno order by teamNo, empNo;";
     conn.query(empNwork, function (err, result) {
+      console.log("시프트테이블체크",req.session.teamNo)
       if (err) {
         console.log("실패");
       } else {
         const empList = new Array();
         for (var i = 0; i < result.length; i++) {
           empList.push({
-            teamNo: result[i].teamNo,
+            teamName: result[i].teamName,
             position: result[i].position,
             empNo: result[i].empNo,
             empName: result[i].empname,
           });
         }
-        //console.log(empNo);
         function removeDuplicates(data, key) {
           return [
             ...new Map(data.map(item => [key(item), item])).values()
@@ -62,7 +60,7 @@ app.get("/shiftTableCk", function (req, res) {
             }
           }
           let shiftN = {
-            teamNo: removeDup[j].teamNo,
+            teamName: removeDup[j].teamName,
             position: removeDup[j].position,
             empNo: removeDup[j].empNo,
             empName: removeDup[j].empName,
