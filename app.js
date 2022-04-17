@@ -20,6 +20,9 @@ app.use(
     secret: "nextlevel",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      httpOnly: false
+    },
     store: new MySQLStore({
       host: "mysql-hnduty.mysql.database.azure.com",
       port: "3306",
