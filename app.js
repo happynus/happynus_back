@@ -34,6 +34,7 @@ app.use(
 var empManageAPI = require("./routes/empManageAPI.js");
 app.use("/", empManageAPI);
 
+
 //logIn
 var login = require("./routes/logInNOut.js");
 app.use("/", login);
